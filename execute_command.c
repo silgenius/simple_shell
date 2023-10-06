@@ -10,7 +10,6 @@ int exec_cmd(char **str_arr)
 {
 	pid_t pid;
 	int status;
-	extern char **environ;
 	char *cmd;
 
 	cmd = check_path(str_arr[0]);

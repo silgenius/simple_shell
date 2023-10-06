@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * check_built in - checks if the string passed is a builtin
+ * check_builtin - checks if the string passed is a builtin
  * @string: pointer to string
  * Return: a pointer to the function
  */

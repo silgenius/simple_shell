@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * split_string - splits a string into an array of strings
+ * @input: string to be split
+ * Return: pointer to array of strings
+ */
+
 char **split_string(char *input)
 {
 	char *str;

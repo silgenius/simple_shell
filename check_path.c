@@ -27,29 +27,22 @@ char *check_path(char *command)
 				free(f_path);
 				exit(98);
 			}
-
 			strcpy(f_path, str);
 			strcpy(f_path, "/");
 			strcpy(f_path, command);
 			strcpy(f_path, "\0");
-
 			if (stat(f_path, &buf) == 0)
 			{
 				free(path_dup);
 				return (f_path);
 			}
-
 			free(f_path);
 			str = strtok(NULL, ":");
 		}
-
 		free(path_dup);
-
 		if (stat(command, &buf) == 0)
 			return (command);
-
 		return (NULL);
 	}
-
 	return (NULL);
 }

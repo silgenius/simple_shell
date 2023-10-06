@@ -2,6 +2,7 @@
 
 /**
  * shell_exit - exits the shell
+ * @str_arr: array of strings
  * Return: 0
  */
 

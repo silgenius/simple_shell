@@ -1,5 +1,10 @@
 #include "main.h"
 
+/**
+ * shell_loop - initiates the shell
+ * Return: void
+ */
+
 void shell_loop(void)
 {
 	char *input;

@@ -10,13 +10,16 @@
 #include <string.h>
 #include <fcntl.h>
 
+extern char **environ;
+
 /**
- * struct builtin_t - struct for that holds builtin commands and their functions
- * @str: builtin commnad
+ * struct builtin_t - struct for that holds builtin cmds and their functions
+ * @str: builtin command
  * @builtin: associated function
  */
 
-typedef struct {
+typedef struct builtin_t
+{
 	char *str;
 	int (*builtin)(char **str_arr);
 } builtin_t;

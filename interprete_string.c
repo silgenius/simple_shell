@@ -2,7 +2,7 @@
 
 /**
  * interprete_cmd - takes an array of strings and interprets it
- * @str_arr - an array of strings
+ * @str_arr: an array of strings
  * Return: 0 or 1
  */
 
