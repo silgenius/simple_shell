@@ -23,14 +23,11 @@ char *check_path(char *command)
 			dir_len = strlen(str);
 			f_path = malloc(sizeof(char) * (dir_len + cmd_len + 2));
 			if (f_path == NULL)
-			{
-				free(f_path);
 				exit(98);
-			}
 			strcpy(f_path, str);
-			strcpy(f_path, "/");
-			strcpy(f_path, command);
-			strcpy(f_path, "\0");
+			strcat(f_path, "/");
+			strcat(f_path, command);
+			strcat(f_path, "\0");
 			if (stat(f_path, &buf) == 0)
 			{
 				free(path_dup);
