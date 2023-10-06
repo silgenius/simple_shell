@@ -1,32 +1,36 @@
 #include "main.h"
 
-void shell_loop()
-
+void shell_loop(void)
 {
 	char *input;
 	char **str_arr;
 	int x;
+	size_t bufsize = 1024;
+	ssize_t len;
 
 	x = 1;
 
 	while (x)
 	{
-		input = malloc(1024);
+		input = malloc(sizeof(char) * bufsize);
 		if (input == NULL)
 		{
 			perror("Error");
 			return;
 		}
 
-		if (read_line(input) == -1)
+		printf("($) ");
+		len = read_line(input, &bufsize);
+		if (len == -1)
 		{
 			perror("Error");
-			return;
+			exit(98);
 		}
+		if (len == 0)
+			continue;
 
 		str_arr = split_string(input);
-		x = execute_string(str_arr);
+		x = interprete_cmd(str_arr);
+		free(input);
 	}
 }
-
-
