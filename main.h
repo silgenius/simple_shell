@@ -38,5 +38,6 @@ int interprete_cmd(char **str_arr);
 
 /* ----- BUILTINS ----- */
 int shell_exit(char **str_arr);
+int print_env(char **str_arr);
 
 #endif
