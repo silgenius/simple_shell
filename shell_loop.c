@@ -23,8 +23,9 @@ void shell_loop(void)
 			perror("Error");
 			return;
 		}
+		if (isatty(STDIN_FILENO))
+			printf("($) ");
 
-		printf("($) ");
 		len = read_line(input, &bufsize);
 		if (len == -1)
 		{
