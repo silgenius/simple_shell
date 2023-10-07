@@ -14,7 +14,6 @@ int exec_cmd(char **str_arr, char *exe, int *cnt)
 	int status;
 	char *cmd;
 
-	(void)exe;
 	cmd = check_path(str_arr[0]);
 	if (cmd == NULL)
 		printf("%s: %d: %s: not found\n", exe, *cnt, str_arr[0]);
