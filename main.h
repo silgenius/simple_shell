@@ -10,6 +10,7 @@
 #include <string.h>
 #include <fcntl.h>
 
+
 extern char **environ;
 
 /**
@@ -26,17 +27,19 @@ typedef struct builtin_t
 
 /* ----- FUNCTIONS ----- */
 
-void shell_loop(void);
+void shell_loop(char *exe);
 ssize_t read_line(char *input, size_t *bufsize);
 char **split_string(char *input);
 
 int (*check_builtin(char *string))(char **);
 
 char *check_path(char *command);
-int exec_cmd(char **str_arr);
-int interprete_cmd(char **str_arr);
+int exec_cmd(char **str_arr, char *exe, int *cnt);
+int interprete_cmd(char **str_arr, char *exe, int *cnt);
 
 /* ----- BUILTINS ----- */
 int shell_exit(char **str_arr);
+
+void free_str_arr(char **str_arr);
 
 #endif

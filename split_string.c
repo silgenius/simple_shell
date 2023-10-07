@@ -14,7 +14,6 @@ char **split_string(char *input)
 
 	if (str_arr == NULL)
 	{
-		free(str_arr);
 		exit(98);
 	}
 	x = 0;

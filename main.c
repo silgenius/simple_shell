@@ -5,8 +5,9 @@
  * Return: Always 0
  */
 
-int main(void)
+int main(int ac, char *av[])
 {
-	shell_loop();
+	(void)ac;
+	shell_loop(av[0]);
 	return (0);
 }

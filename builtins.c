@@ -8,6 +8,6 @@
 
 int shell_exit(char **str_arr)
 {
-	(void)str_arr;
+	free_str_arr(str_arr);
 	return (0);
 }
