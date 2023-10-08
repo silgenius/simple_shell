@@ -2,6 +2,8 @@
 
 /**
  * main - initiates a shell
+ * @ac: no of command line args
+ * @av: array of command line args
  * Return: Always 0
  */
 

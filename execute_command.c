@@ -35,6 +35,7 @@ int exec_cmd(char **str_arr, char *exe, int *cnt)
 		if (pid > 0)
 		{
 			wait(&status);
+			free(cmd);
 		}
 	}
 	(*cnt)++;
