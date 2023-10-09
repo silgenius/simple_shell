@@ -39,6 +39,7 @@ int interprete_cmd(char **str_arr, char *exe, int *cnt);
 
 /* ----- BUILTINS ----- */
 int shell_exit(char **str_arr);
+int change_dir(char **str_arr);
 
 void free_str_arr(char **str_arr);
 

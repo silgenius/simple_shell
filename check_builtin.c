@@ -9,7 +9,8 @@
 int (*check_builtin(char *string))(char **)
 {
 	builtin_t list[] = {{"exit", shell_exit},
-			    {NULL, NULL}};
+		{"cd", change_dir},
+		{NULL, NULL}};
 	int x = 0;
 
 	while (list[x].str != NULL)
