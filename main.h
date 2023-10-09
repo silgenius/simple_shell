@@ -22,24 +22,28 @@ extern char **environ;
 typedef struct builtin_t
 {
 	char *str;
-	int (*builtin)(char **str_arr);
+	void (*builtin)(char **str_arr, char *input, char *exe, int *cnt);
 } builtin_t;
 
 /* ----- FUNCTIONS ----- */
 
 void shell_loop(char *exe);
 ssize_t read_line(char *input, size_t *bufsize);
-void split_string(char *input, char **str_arr);
 
-int (*check_builtin(char *string))(char **);
+void (*check_builtin(char *string))(char **, char *, char *, int *);
 
 char *check_path(char *command);
 int exec_cmd(char **str_arr, char *exe, int *cnt);
 int interprete_cmd(char *input, char *exe, int *cnt);
 
 /* ----- BUILTINS ----- */
-int shell_exit(char **str_arr);
+void shell_exit(char **str_arr, char *input, char *exe, int *cnt);
+void shell_setenv(char **str_arr, char *input, char *exe, int *cnt);
+void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt);
 
+/* ---- HELPER FUNCTIONS ----- */
+char *create_env(char *var, char *value);
 void free_str_arr(char **str_arr);
-
+int string_to_int(char *s);
+void write_err(char *str);
 #endif

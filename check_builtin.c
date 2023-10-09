@@ -6,9 +6,11 @@
  * Return: a pointer to the function
  */
 
-int (*check_builtin(char *string))(char **)
+void (*check_builtin(char *string))(char **, char *, char *, int *)
 {
 	builtin_t list[] = {{"exit", shell_exit},
+			    {"setenv", shell_setenv},
+			    {"unsetenv", shell_unsetenv},
 			    {NULL, NULL}};
 	int x = 0;
 

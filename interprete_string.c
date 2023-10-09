@@ -12,7 +12,7 @@
 
 int interprete_cmd(char *input, char *exe, int *cnt)
 {
-	int i, ret = 0, b = 0, x = 0;
+	int ret = 1, b = 0, x = 0;
 	char *str;
 	char **str_arr = malloc(sizeof(char *) * 24);
 
@@ -25,24 +25,14 @@ int interprete_cmd(char *input, char *exe, int *cnt)
 	}
 	str_arr[x] = '\0';
 
-	for (i = 0; i < 1; i++)
+	if (check_builtin(str_arr[0]) != NULL)
 	{
-		if (check_builtin(str_arr[i]) != NULL)
-		{
-			ret = ((*check_builtin(str_arr[i]))(str_arr));
-			b = 1;
-			break;
-		}
+		(*check_builtin(str_arr[0]))(str_arr, input, exe, cnt);
+		b = 1;
 	}
 	if (b != 1)
 		ret = (exec_cmd(str_arr, exe, cnt));
 
-	x--;
-	while (x >= 0)
-	{
-		free(str_arr[x]);
-		x--;
-	}
-	free(str_arr);
+	free_str_arr(str_arr);
 	return (ret);
 }
