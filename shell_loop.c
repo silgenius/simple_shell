@@ -38,7 +38,6 @@ void shell_loop(char *exe)
 			free(input);
 			continue;
 		}
-
 		x = interprete_cmd(input, exe, &count);
 		free(input);
 	}
