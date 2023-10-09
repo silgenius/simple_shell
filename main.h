@@ -29,13 +29,13 @@ typedef struct builtin_t
 
 void shell_loop(char *exe);
 ssize_t read_line(char *input, size_t *bufsize);
-char **split_string(char *input);
+void split_string(char *input, char **str_arr);
 
 int (*check_builtin(char *string))(char **);
 
 char *check_path(char *command);
 int exec_cmd(char **str_arr, char *exe, int *cnt);
-int interprete_cmd(char **str_arr, char *exe, int *cnt);
+int interprete_cmd(char *input, char *exe, int *cnt);
 
 /* ----- BUILTINS ----- */
 int shell_exit(char **str_arr);

@@ -8,7 +8,7 @@
 
 int shell_exit(char **str_arr)
 {
-	free_str_arr(str_arr);
+	(void)str_arr;
 	return (0);
 }
 
@@ -27,10 +27,9 @@ int shell_exit(char **str_arr)
  */
 int change_dir(char **str_arr)
 {
-	int count, i, fd, check;
+	int fd, check;
 	char buff[1024];
 
-	count = 0;
 	check = 1;
 
 	if (str_arr[1] == NULL)
@@ -38,18 +37,8 @@ int change_dir(char **str_arr)
 		fd = chdir(getenv("HOME"));
 		check = 0;
 	}
-	 for (i = 1; str_arr[i] != NULL; i++)
-	 {
-		 while (*str_arr[i] != '\0')
-		 {
-			 buff[count] = *str_arr[i];
-			 count++;
-			 str_arr[i]++;
-		 }
-	 }
-	 buff[count] = '\0';
 	 if (check)
-	 	fd = chdir(buff);
+	 	fd = chdir(str_arr[1]);
 	 if (fd == -1)
 	 {
 		 perror("./hsh: cd");

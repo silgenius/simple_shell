@@ -9,9 +9,8 @@
 void shell_loop(char *exe)
 {
 	char *input;
-	char **str_arr;
-	int x = 1;
 	int count = 1;
+	int x = 1;
 	size_t bufsize = 1024;
 	ssize_t len;
 
@@ -40,8 +39,7 @@ void shell_loop(char *exe)
 			continue;
 		}
 
-		str_arr = split_string(input);
-		x = interprete_cmd(str_arr, exe, &count);
+		x = interprete_cmd(input, exe, &count);
 		free(input);
 	}
 }
