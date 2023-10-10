@@ -19,7 +19,7 @@ void shell_exit(char **str_arr, char *input, char *exe, int *cnt)
 		if (exit_value == 0)
 		{
 			printf("%s: %d: exit: Illegal number: %s\n", exe, *cnt, str_arr[1]);
-			(*cnt)++;
+			(*cnt)--;
 		}
 		else
 		{
@@ -54,32 +54,36 @@ void shell_setenv(char **str_arr, char *input, char *exe, int *cnt)
 	(void)exe;
 	new_var = create_env(str_arr[1], str_arr[2]);
 	if (new_var == NULL)
-		write_err("usage: setenv <variable_name> <variable_value\n");
-	else
 	{
-		for (; environ[x]; x++)
-		{
-			env_dup = strdup(environ[x]);
-			str = strtok(env_dup, "=");
-			if (strcmp(str_arr[1], str) == 0)
-			{
-				free(env_dup);
-				free(environ[x]);
-				environ[x] = strdup(new_var);
-				free(new_var);
-				break;
-			}
-			free(env_dup);
-		}
-		if (!environ[x])
-		{
-			environ[x] = strdup(new_var);
-			x++;
-			environ[x] = NULL;
-		}
-		free(new_var);
+		write_err("usage: setenv <variable_name> <variable_value\n");
+		(*cnt)--;
+		return;
 	}
-	(*cnt)++;
+	for (; environ[x]; x++)
+	{
+		env_dup = strdup(environ[x]);
+		str = strtok(env_dup, "=");
+		if (strcmp(str_arr[1], str) == 0)
+		{
+			free(env_dup);
+			free(environ[x]);
+			environ[x] = strdup(new_var);
+			if (environ[x] == NULL)
+				perror_exit();
+			free(new_var);
+			break;
+		}
+		free(env_dup);
+	}
+	if (!environ[x])
+	{
+		environ[x] = strdup(new_var);
+		if (environ[x] == NULL)
+			perror_exit();
+		x++;
+		environ[x] = NULL;
+	}
+	free(new_var);
 }
 
 /**
@@ -99,30 +103,34 @@ void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt)
 	(void)input;
 	(void)exe;
 	if (str_arr[1] == NULL)
-		write_err("usage: unsetenv <variable_name>\n");
-	else
 	{
-		for (; environ[x]; x++)
-		{
-			env_dup = strdup(environ[x]);
-			str = strtok(env_dup, "=");
-			if (strcmp(str_arr[1], str) == 0)
-			{
-				free(env_dup);
-				for (; environ[x]; x++)
-				{
-					free(environ[x]);
-					if (environ[x + 1])
-						environ[x] = strdup(environ[x + 1]);
-					else
-						environ[x] = NULL;
-				}
-				break;
-			}
-			free(env_dup);
-		}
+		write_err("usage: unsetenv <variable_name>\n");
+		(*cnt)--;
+		return;
 	}
-	(*cnt)++;
+	for (; environ[x]; x++)
+	{
+		env_dup = strdup(environ[x]);
+		str = strtok(env_dup, "=");
+		if (strcmp(str_arr[1], str) == 0)
+		{
+			free(env_dup);
+			for (; environ[x]; x++)
+			{
+				free(environ[x]);
+				if (environ[x + 1])
+				{
+					environ[x] = strdup(environ[x + 1]);
+					if (environ[x] == NULL)
+						perror_exit();
+				}
+				else
+					environ[x] = NULL;
+			}
+			break;
+		}
+		free(env_dup);
+	}
 }
 
 /**
@@ -158,7 +166,9 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 		fd = chdir(str_arr[1]);
 	if (fd == -1)
 	{
-		perror("./hsh: cd");}
+		perror("./hsh: cd");
+		(*cnt)--;
+	}
 	else
 	{
 		if (getcwd(buff, sizeof(buff)) != NULL)
@@ -166,5 +176,4 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 			setenv("PWD", buff, 1);
 		}
 	}
-	(*cnt)++;
 }

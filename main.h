@@ -25,18 +25,18 @@ typedef struct builtin_t
 	void (*builtin)(char **str_arr, char *input, char *exe, int *cnt);
 } builtin_t;
 
-/* ----- FUNCTIONS ----- */
+/* ----- MAIN FUNCTIONS ----- */
 
 void shell_loop(char *exe);
 ssize_t read_line(char *input, size_t *bufsize);
 
-void (*check_builtin(char *string))(char **, char *, char *, int *);
-
-char *check_path(char *command);
+int parse_string(char *input, char *exe, int *cnt);
+int interprete_cmd(char *input, char *exe, int *cnt, char *str);
 int exec_cmd(char **str_arr, char *exe, int *cnt);
-int interprete_cmd(char *input, char *exe, int *cnt);
+char *check_path(char *command);
 
 /* ----- BUILTINS ----- */
+void (*check_builtin(char *string))(char **, char *, char *, int *);
 void shell_exit(char **str_arr, char *input, char *exe, int *cnt);
 void shell_setenv(char **str_arr, char *input, char *exe, int *cnt);
 void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt);
@@ -47,4 +47,8 @@ char *create_env(char *var, char *value);
 void free_str_arr(char **str_arr);
 int string_to_int(char *s);
 void write_err(char *str);
+void perror_exit(void);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+int _strchr(char *s, char c);
+
 #endif
