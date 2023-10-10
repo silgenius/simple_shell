@@ -10,7 +10,6 @@
 #include <string.h>
 #include <fcntl.h>
 
-
 extern char **environ;
 
 /**

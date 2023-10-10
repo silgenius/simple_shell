@@ -6,6 +6,7 @@
  * Return: 0
  */
 
+
 int shell_exit(char **str_arr)
 {
 	(void)str_arr;
@@ -34,9 +35,10 @@ int change_dir(char **str_arr)
 
 	if (str_arr[1] == NULL)
 	{
-		fd = chdir(getenv("HOME"));
+		fd = chdir(getenv("PWD"));
 		check = 0;
 	}
+
 	 if (check)
 	 	fd = chdir(str_arr[1]);
 	 if (fd == -1)
