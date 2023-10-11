@@ -16,20 +16,20 @@ int exec_cmd(char **str_arr, char *exe, int *cnt)
 
 	cmd = check_path(str_arr[0]);
 	if (cmd == NULL)
+	{
 		printf("%s: %d: %s: not found\n", exe, *cnt, str_arr[0]);
+		(*cnt)--;
+	}
 	else
 	{
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("Error failed fork");
-			exit(98);
-		}
+			perror_exit();
 		if (pid == 0)
 		{
 			if (execve(cmd, str_arr, environ) == -1)
 			{
-				perror("Error failed execute");
+				perror("Error");
 			}
 		}
 		if (pid > 0)
@@ -38,6 +38,5 @@ int exec_cmd(char **str_arr, char *exe, int *cnt)
 			free(cmd);
 		}
 	}
-	(*cnt)++;
 	return (1);
 }
