@@ -33,7 +33,8 @@ int parse_string(char *input, char *exe, int *cnt);
 int interprete_cmd(char *input, char *exe, int *cnt, char *str);
 int exec_cmd(char **str_arr, char *exe, int *cnt);
 char *check_path(char *command);
-char *check_variable(char *input);
+void check_variable(char *input);
+
 
 /* ----- BUILTINS ----- */
 void (*check_builtin(char *string))(char **, char *, char *, int *);

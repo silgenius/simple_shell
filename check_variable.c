@@ -12,7 +12,7 @@
  *
  * Return: A dynamically allocated string with variables replaced.
  */
-char *check_variable(char *input)
+void check_variable(char *input)
 {
 	char *str = strdup(input);
 	char *var;
@@ -21,7 +21,6 @@ char *check_variable(char *input)
 	pid_t pid;
 
 	pid = getpid();
-
 	count = 0;
 	i = 0;
 	while (*str != '\0')
@@ -47,7 +46,6 @@ char *check_variable(char *input)
 				}
 				tmp[i] = '\0';
 				var = getenv(tmp);
-				strcat(var, " ");
 			}
 
 			if (var == NULL)
@@ -57,6 +55,7 @@ char *check_variable(char *input)
 			}
 			else
 			{
+				strcat(var, " ");
 				while (*var != '\0')
 				{
 					input[count] = *var;
@@ -75,6 +74,5 @@ char *check_variable(char *input)
 
 	input[count] = '\0';
 
-	return (input);
 }
 

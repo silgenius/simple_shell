@@ -156,6 +156,7 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 
 	(void)input;
 	(void)exe;
+
 	check = 1;
 	if (str_arr[1] == NULL)
 	{

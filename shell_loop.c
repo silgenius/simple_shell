@@ -38,6 +38,7 @@ void shell_loop(char *exe)
 			free(input);
 			continue;
 		}
+
 		check_variable(input);
 		x = parse_string(input, exe, &count);
 		count++;
