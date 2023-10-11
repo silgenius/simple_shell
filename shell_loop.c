@@ -38,8 +38,10 @@ void shell_loop(char *exe)
 			free(input);
 			continue;
 		}
-
-		x = interprete_cmd(input, exe, &count);
+		check_variable(input);
+		x = parse_string(input, exe, &count);
+		count++;
+		/*x = interprete_cmd(input, exe, &count);*/
 		free(input);
 	}
 }

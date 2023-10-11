@@ -3,19 +3,142 @@
 /**
  * shell_exit - exits the shell
  * @str_arr: array of strings
- * Return: 0
+ * @input: pointer to input command
+ * @exe: name of program
+ * @cnt: loop count
+ * Return: void
  */
 
-
-int shell_exit(char **str_arr)
+void shell_exit(char **str_arr, char *input, char *exe, int *cnt)
 {
-	(void)str_arr;
-	return (0);
+	int exit_value = 0;
+
+	if (str_arr[1])
+	{
+		exit_value = string_to_int(str_arr[1]);
+		if (exit_value == 0)
+		{
+			printf("%s: %d: exit: Illegal number: %s\n", exe, *cnt, str_arr[1]);
+			(*cnt)--;
+		}
+		else
+		{
+			free(input);
+			free_str_arr(str_arr);
+			exit(exit_value);
+		}
+	}
+	else
+	{
+		free(input);
+		free_str_arr(str_arr);
+		exit(exit_value);
+	}
+}
+
+/**
+ * shell_setenv - creates or modifies an environmental variable
+ * @str_arr: array of strings
+ * @input: pointer to input command
+ * @exe: name of program
+ * @cnt: loop count
+ * Return: void
+ */
+
+void shell_setenv(char **str_arr, char *input, char *exe, int *cnt)
+{
+	char *str, *new_var, *env_dup;
+	int x = 0;
+
+	(void)input;
+	(void)exe;
+	new_var = create_env(str_arr[1], str_arr[2]);
+	if (new_var == NULL)
+	{
+		write_err("usage: setenv <variable_name> <variable_value\n");
+		(*cnt)--;
+		return;
+	}
+	for (; environ[x]; x++)
+	{
+		env_dup = strdup(environ[x]);
+		str = strtok(env_dup, "=");
+		if (strcmp(str_arr[1], str) == 0)
+		{
+			free(env_dup);
+			free(environ[x]);
+			environ[x] = strdup(new_var);
+			if (environ[x] == NULL)
+				perror_exit();
+			free(new_var);
+			break;
+		}
+		free(env_dup);
+	}
+	if (!environ[x])
+	{
+		environ[x] = strdup(new_var);
+		if (environ[x] == NULL)
+			perror_exit();
+		x++;
+		environ[x] = NULL;
+	}
+	free(new_var);
+}
+
+/**
+ * shell_unsetenv - deletes an environmental variable
+ * @str_arr: array of strings
+ * @input: pointer to input command
+ * @exe: name of program
+ * @cnt: loop count
+ * Return: void
+ */
+
+void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt)
+{
+	char *str, *env_dup;
+	int x = 0;
+
+	(void)input;
+	(void)exe;
+	if (str_arr[1] == NULL)
+	{
+		write_err("usage: unsetenv <variable_name>\n");
+		(*cnt)--;
+		return;
+	}
+	for (; environ[x]; x++)
+	{
+		env_dup = strdup(environ[x]);
+		str = strtok(env_dup, "=");
+		if (strcmp(str_arr[1], str) == 0)
+		{
+			free(env_dup);
+			for (; environ[x]; x++)
+			{
+				free(environ[x]);
+				if (environ[x + 1])
+				{
+					environ[x] = strdup(environ[x + 1]);
+					if (environ[x] == NULL)
+						perror_exit();
+				}
+				else
+					environ[x] = NULL;
+			}
+			break;
+		}
+		free(env_dup);
+	}
 }
 
 /**
  * change_dir - Changes the current working directory.
  * @str_arr: An array of strings containing the directory path.
+ * @input: pointer to input command
+ * @exe: name of program
+ * @cnt: loop count
  *
  * Description: This function takes an array of strings where the first element
  * is the command and the second element (if present) is the path
@@ -26,31 +149,32 @@ int shell_exit(char **str_arr)
  * Return: 1 if the directory change is successful, otherwise an error message
  * is printed and the return value is still 1.
  */
-int change_dir(char **str_arr)
+void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 {
 	int fd, check;
 	char buff[1024];
 
+	(void)input;
+	(void)exe;
 	check = 1;
-
 	if (str_arr[1] == NULL)
 	{
-		fd = chdir(getenv("PWD"));
+		fd = chdir(getenv("HOME"));
 		check = 0;
 	}
 
-	 if (check)
-	 	fd = chdir(str_arr[1]);
-	 if (fd == -1)
-	 {
-		 perror("./hsh: cd");
-	 }
-	 else
-	 {
-		 if (getcwd(buff, sizeof(buff)) != NULL)
-		 {
-			 setenv("PWD", buff, 1);
-		 }
-	 }
-	 return (1);
+	if (check)
+		fd = chdir(str_arr[1]);
+	if (fd == -1)
+	{
+		perror("./hsh: cd");
+		(*cnt)--;
+	}
+	else
+	{
+		if (getcwd(buff, sizeof(buff)) != NULL)
+		{
+			setenv("PWD", buff, 1);
+		}
+	}
 }

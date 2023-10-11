@@ -15,10 +15,6 @@ void free_str_arr(char **str_arr)
 	while (str_arr[x])
 	{
 		free(str_arr[x]);
-		if (str_arr[x])
-			printf("Not free\n");
-		else
-			printf("freed\n");
 		x++;
 	}
 	free(str_arr);
