@@ -163,6 +163,11 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 		fd = chdir(getenv("HOME"));
 		check = 0;
 	}
+	else if (strcmp(str_arr[1], "-") == 0)
+	{
+		fd = chdir(getenv("OLDPWD"));
+		check = 0;
+	}
 
 	if (check)
 		fd = chdir(str_arr[1]);
