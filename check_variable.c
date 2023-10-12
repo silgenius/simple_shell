@@ -1,5 +1,7 @@
 #include "main.h"
 
+void write_var_to_input(char *var, char *input, int *count);
+
 /**
  * check_variable - Handles variable replacement in input string.
  * @input: The input string to be processed.
@@ -32,10 +34,10 @@ void check_variable(char *input)
 			if (*str == '$')
 			{
 				sprintf(tmp, "%u", pid);
-				var = tmp;
+				write_var_to_input(tmp, input, &count);
 			}
 			else if (*str == '?')
-				var = "0";
+				write_var_to_input("0", input, &count);
 			else
 			{
 				while (*str != ' ' && *str != '\0')
@@ -46,21 +48,16 @@ void check_variable(char *input)
 				}
 				tmp[i] = '\0';
 				var = getenv(tmp);
-			}
 
-			if (var == NULL)
-			{
-				input[count] = ' ';
-				count++;
-			}
-			else
-			{
-				strcat(var, " ");
-				while (*var != '\0')
+				if (var == NULL)
 				{
-					input[count] = *var;
+					input[count] = ' ';
 					count++;
-					var++;
+				}
+				else
+				{
+					strcat(var, " ");
+					write_var_to_input(var, input, &count);
 				}
 			}
 		}
@@ -76,3 +73,24 @@ void check_variable(char *input)
 
 }
 
+/**
+ * write_var_to_input - Writes a variable to an input string.
+ * @var: The variable to be written.
+ * @input: The input string.
+ * @count: A pointer to an integer representing the current count.
+ *
+ * Description: This function writes the provided variable to the input string
+ * at the current count position. It updates the count to reflect
+ * the new position after writing.
+ *
+ * Return: None.
+ */
+void write_var_to_input(char *var, char *input, int *count)
+{
+	while (*var != '\0')
+	{
+		input[*count] = *var;
+		(*count)++;
+		var++;
+	}
+}
