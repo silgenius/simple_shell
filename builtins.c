@@ -190,3 +190,24 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 		}
 	}
 }
+
+/**
+ * print_env - prints the environment's variables
+ * @str_arr: array of strings
+ * @input: pointer to input command
+ * @exe: name of program
+ * @cnt: loop count
+ * Return: void
+ */
+
+void print_env(char **str_arr, char *input, char *exe, int *cnt)
+{
+	int x = 0;
+
+	(void)str_arr;
+	(void)input;
+	(void)exe;
+	(void)cnt;
+	for (; environ[x]; x++)
+		printf("%s\n", environ[x]);
+}

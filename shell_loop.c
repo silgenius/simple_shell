@@ -10,8 +10,7 @@ void shell_loop(char *exe)
 {
 	char *input;
 	int count = 1, x = 1, exit_status = 0;
-	size_t bufsize = 1024;
-	ssize_t len;
+	ssize_t bufsize = line_size, len;
 
 	while (x)
 	{
@@ -21,7 +20,7 @@ void shell_loop(char *exe)
 		if (isatty(STDIN_FILENO))
 			printf("($) ");
 
-		len = read_line(input, &bufsize);
+		len = read_line(&input, &bufsize);
 		if (len == -1)
 		{
 			free(input);
