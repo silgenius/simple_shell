@@ -153,10 +153,12 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 {
 	int fd, check;
 	char buff[1024];
+	char *pwd_old;
 
 	(void)input;
 	(void)exe;
 
+	pwd_old = getenv("PWD");
 	check = 1;
 	if (str_arr[1] == NULL)
 	{
@@ -166,6 +168,7 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 	else if (strcmp(str_arr[1], "-") == 0)
 	{
 		fd = chdir(getenv("OLDPWD"));
+		fd == - 1 ? fd = -1 : printf("%s\n", getenv("OLDPWD"));
 		check = 0;
 	}
 
@@ -181,6 +184,7 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 		if (getcwd(buff, sizeof(buff)) != NULL)
 		{
 			setenv("PWD", buff, 1);
+			setenv("OLDPWD", pwd_old, 1);
 		}
 	}
 }
