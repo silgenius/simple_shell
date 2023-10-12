@@ -8,7 +8,7 @@
  * Return: 1
  */
 
-int exec_cmd(char **str_arr, char *exe, int *cnt)
+int exec_cmd(char **str_arr, char *exe, int *cnt, int* exit_status)
 {
 	pid_t pid;
 	int status;
@@ -17,7 +17,8 @@ int exec_cmd(char **str_arr, char *exe, int *cnt)
 	cmd = check_path(str_arr[0]);
 	if (cmd == NULL)
 	{
-		printf("%s: %d: %s: not found\n", exe, *cnt, str_arr[0]);
+		dprintf(STDERR_FILENO, "%s: %d: %s: not found\n", exe, *cnt, str_arr[0]);
+		*exit_status = 127;
 		(*cnt)--;
 	}
 	else
@@ -36,6 +37,7 @@ int exec_cmd(char **str_arr, char *exe, int *cnt)
 		{
 			wait(&status);
 			free(cmd);
+			*exit_status = WEXITSTATUS(status);
 		}
 	}
 	return (1);

@@ -11,14 +11,20 @@
 
 void shell_exit(char **str_arr, char *input, char *exe, int *cnt)
 {
-	int exit_value = 0;
+	int exit_value = EXIT_SUCCESS;
 
 	if (str_arr[1])
 	{
 		exit_value = string_to_int(str_arr[1]);
 		if (exit_value == 0)
 		{
-			printf("%s: %d: exit: Illegal number: %s\n", exe, *cnt, str_arr[1]);
+			dprintf(STDERR_FILENO, "%s: %d: exit: Illegal number: %s\n", exe, *cnt, str_arr[1]);
+			if (!isatty(STDERR_FILENO))
+			{
+				free(input);
+				free_str_arr(str_arr);
+				exit(2);
+			}
 			(*cnt)--;
 		}
 		else

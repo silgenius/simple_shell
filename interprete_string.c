@@ -11,7 +11,7 @@
  * Return: 0 or 1
  */
 
-int interprete_cmd(char *input, char *exe, int *cnt, char *str)
+int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status)
 {
 	int ret = 1, b = 0;
 	size_t arr_size = sizeof(char *) * 24, x = 0, new_arr_size;
@@ -49,7 +49,8 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str)
 		b = 1;
 	}
 	if (b != 1)
-		ret = (exec_cmd(str_arr, exe, cnt));
+		ret = (exec_cmd(str_arr, exe, cnt, exit_status));
 	free_str_arr(str_arr);
+	free(input);
 	return (ret);
 }

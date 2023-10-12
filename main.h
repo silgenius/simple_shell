@@ -29,9 +29,9 @@ typedef struct builtin_t
 void shell_loop(char *exe);
 ssize_t read_line(char *input, size_t *bufsize);
 
-int parse_string(char *input, char *exe, int *cnt);
-int interprete_cmd(char *input, char *exe, int *cnt, char *str);
-int exec_cmd(char **str_arr, char *exe, int *cnt);
+int parse_string(char *input, char *exe, int *cnt, int *exit_status);
+int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status);
+int exec_cmd(char **str_arr, char *exe, int *cnt, int *exit_status);
 char *check_path(char *command);
 void check_variable(char *input);
 
