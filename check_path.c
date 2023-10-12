@@ -9,7 +9,7 @@
 char *check_path(char *command)
 {
 	struct stat buf;
-	char *path, *path_dup, *str, *f_path;
+	char *path, *path_dup, *str, *f_path, *cmd_dup;
 	int cmd_len, dir_len;
 
 	path = getenv("PATH");
@@ -23,7 +23,7 @@ char *check_path(char *command)
 			dir_len = strlen(str);
 			f_path = malloc(sizeof(char) * (dir_len + cmd_len + 2));
 			if (f_path == NULL)
-				exit(98);
+				perror_exit();
 			strcpy(f_path, str);
 			strcat(f_path, "/");
 			strcat(f_path, command);
@@ -38,7 +38,12 @@ char *check_path(char *command)
 		}
 		free(path_dup);
 		if (stat(command, &buf) == 0)
-			return (command);
+		{
+			cmd_dup = strdup(command);
+			if (cmd_dup == NULL)
+				perror_exit();
+			return (cmd_dup);
+		}
 		return (NULL);
 	}
 	return (NULL);

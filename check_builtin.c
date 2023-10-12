@@ -12,6 +12,7 @@ void (*check_builtin(char *string))(char **, char *, char *, int *)
 			    {"setenv", shell_setenv},
 			    {"unsetenv", shell_unsetenv},
 			    {"cd", change_dir},
+			    {"env", print_env},
 			    {NULL, NULL}};
 	int x = 0;
 

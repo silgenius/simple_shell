@@ -11,14 +11,20 @@
 
 void shell_exit(char **str_arr, char *input, char *exe, int *cnt)
 {
-	int exit_value = 0;
+	int exit_value = EXIT_SUCCESS;
 
 	if (str_arr[1])
 	{
 		exit_value = string_to_int(str_arr[1]);
 		if (exit_value == 0)
 		{
-			printf("%s: %d: exit: Illegal number: %s\n", exe, *cnt, str_arr[1]);
+			dprintf(STDERR_FILENO, "%s: %d: exit: Illegal number: %s\n", exe, *cnt, str_arr[1]);
+			if (!isatty(STDERR_FILENO))
+			{
+				free(input);
+				free_str_arr(str_arr);
+				exit(2);
+			}
 			(*cnt)--;
 		}
 		else
@@ -187,4 +193,25 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
 			setenv("OLDPWD", pwd_old, 1);
 		}
 	}
+}
+
+/**
+ * print_env - prints the environment's variables
+ * @str_arr: array of strings
+ * @input: pointer to input command
+ * @exe: name of program
+ * @cnt: loop count
+ * Return: void
+ */
+
+void print_env(char **str_arr, char *input, char *exe, int *cnt)
+{
+	int x = 0;
+
+	(void)str_arr;
+	(void)input;
+	(void)exe;
+	(void)cnt;
+	for (; environ[x]; x++)
+		printf("%s\n", environ[x]);
 }

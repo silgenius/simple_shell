@@ -10,6 +10,8 @@
 #include <string.h>
 #include <fcntl.h>
 
+#define line_size 1024
+
 extern char **environ;
 
 /**
@@ -46,11 +48,11 @@ typedef struct alias_t {
 /* ----- MAIN FUNCTIONS ----- */
 
 void shell_loop(char *exe);
-ssize_t read_line(char *input, size_t *bufsize);
+ssize_t read_line(char **input, ssize_t *bufsize);
 
-int parse_string(char *input, char *exe, int *cnt);
-int interprete_cmd(char *input, char *exe, int *cnt, char *str);
-int exec_cmd(char **str_arr, char *exe, int *cnt);
+int parse_string(char *input, char *exe, int *cnt, int *exit_status);
+int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status);
+int exec_cmd(char **str_arr, char *exe, int *cnt, int *exit_status);
 char *check_path(char *command);
 void check_variable(char *input);
 
@@ -61,6 +63,7 @@ void shell_exit(char **str_arr, char *input, char *exe, int *cnt);
 void shell_setenv(char **str_arr, char *input, char *exe, int *cnt);
 void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt);
 void change_dir(char **str_arr, char *input, char *exe, int *cnt);
+void print_env(char **str_arr, char *input, char *exe, int *cnt);
 
 /* ---- HELPER FUNCTIONS ----- */
 char *create_env(char *var, char *value);

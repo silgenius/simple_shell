@@ -16,15 +16,13 @@ void write_var_to_input(char *var, char *input, int *count);
  */
 void check_variable(char *input)
 {
-	char *str = strdup(input);
-	char *var;
+	char *var, *ptr, *str = strdup(input);
 	int count, i;
 	char tmp[10];
-	pid_t pid;
+	pid_t pid = getpid();
 
-	pid = getpid();
-	count = 0;
-	i = 0;
+	count = i = 0;
+	ptr = str;
 	while (*str != '\0')
 	{
 		if (*str == '$' && *(str + 1) != ' ' && *(str + 1) != '\0')
@@ -41,19 +39,12 @@ void check_variable(char *input)
 			else
 			{
 				while (*str != ' ' && *str != '\0')
-				{
-					tmp[i] = *str;
-					i++;
-					str++;
-				}
+					tmp[i++] = *(str++);
 				tmp[i] = '\0';
 				var = getenv(tmp);
 
 				if (var == NULL)
-				{
-					input[count] = ' ';
-					count++;
-				}
+					input[count++] = ' ';
 				else
 				{
 					strcat(var, " ");
@@ -62,13 +53,10 @@ void check_variable(char *input)
 			}
 		}
 		else
-		{
-			input[count] = *str;
-			count++;
-		}
+			input[count++] = *str;
 		str++;
 	}
-
+	free(ptr);
 	input[count] = '\0';
 
 }
@@ -88,9 +76,5 @@ void check_variable(char *input)
 void write_var_to_input(char *var, char *input, int *count)
 {
 	while (*var != '\0')
-	{
-		input[*count] = *var;
-		(*count)++;
-		var++;
-	}
+		input[(*count)++] = *(var++);
 }
