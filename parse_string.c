@@ -8,7 +8,7 @@
  * Return: Always 1
  */
 
-int parse_string(char *input, char *exe, int *cnt)
+int parse_string(char *input, char *exe, int *cnt, int* exit_status)
 {
 	char *chk_cmt, *str, *ptr;
 	int x = 1, semi_present;
@@ -34,12 +34,12 @@ int parse_string(char *input, char *exe, int *cnt)
 	while (str != NULL)
 	{
 		if (*str != '\0')
-			x = interprete_cmd(input, exe, cnt, str);
+			x = interprete_cmd(input, exe, cnt, str, exit_status);
 		if (x == 0)
 		{
 			if (semi_present)
 			{
-				printf("%s: %d: Syntax error: %c;%c unexpected\n", exe, *cnt, 34, 34);
+				dprintf(STDERR_FILENO, "%s: %d: Syntax error: %c;%c unexpected\n", exe, *cnt, 34, 34);
 				(*cnt)--;
 			}
 			x = 1;
