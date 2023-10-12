@@ -24,6 +24,25 @@ typedef struct builtin_t
 	void (*builtin)(char **str_arr, char *input, char *exe, int *cnt);
 } builtin_t;
 
+/**
+ * struct alias - Represents an alias in a linked list.
+ * @alias_name: The name of the alias.
+ * @alias_value: The value associated with the alias.
+ * @next: A pointer to the next alias in the linked list.
+ *
+ * Description: This structure defines a node in a linked list of aliases.
+ * Each node contains an alias name, its associated value, and a pointer
+ * to the next alias in the list. This allows for the creation of a
+ * dynamic list of aliases, where each node represents a unique alias
+ * along with its corresponding value.
+ */
+typedef struct alias_t {
+    char *name;
+    char *value;
+    struct alias_t *next;
+} alias;
+
+
 /* ----- MAIN FUNCTIONS ----- */
 
 void shell_loop(char *exe);
@@ -51,5 +70,10 @@ void write_err(char *str);
 void perror_exit(void);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 int _strchr(char *s, char c);
+void create_alias(alias **head, char *name, char *value);
+void print_alias(alias *head);
+char *search_alias(alias *head, char *name);
+void free_alias(alias *head);
+
 
 #endif
