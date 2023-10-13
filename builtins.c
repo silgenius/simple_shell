@@ -9,14 +9,13 @@
  * Return: void
  */
 
-void shell_exit(char **str_arr, char *input, char *exe, int *cnt)
+void shell_exit(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
 {
-	int exit_value = EXIT_SUCCESS;
+	int exit_value = *exit_status;
 
 	if (str_arr[1])
 	{
-		exit_value = string_to_int(str_arr[1]);
-		if (exit_value == 0)
+		if ((exit_value = string_to_int(str_arr[1])) == 0)
 		{
 			dprintf(STDERR_FILENO, "%s: %d: exit: Illegal number: %s\n", exe, *cnt, str_arr[1]);
 			if (!isatty(STDERR_FILENO))
@@ -51,13 +50,14 @@ void shell_exit(char **str_arr, char *input, char *exe, int *cnt)
  * Return: void
  */
 
-void shell_setenv(char **str_arr, char *input, char *exe, int *cnt)
+void shell_setenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
 {
 	char *str, *new_var, *env_dup;
 	int x = 0;
 
 	(void)input;
 	(void)exe;
+	(void)exit_status;
 	new_var = create_env(str_arr[1], str_arr[2]);
 	if (new_var == NULL)
 	{
@@ -101,13 +101,14 @@ void shell_setenv(char **str_arr, char *input, char *exe, int *cnt)
  * Return: void
  */
 
-void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt)
+void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
 {
 	char *str, *env_dup;
 	int x = 0;
 
 	(void)input;
 	(void)exe;
+	(void)exit_status;
 	if (str_arr[1] == NULL)
 	{
 		write_err("usage: unsetenv <variable_name>\n");
@@ -155,14 +156,14 @@ void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt)
  * Return: 1 if the directory change is successful, otherwise an error message
  * is printed and the return value is still 1.
  */
-void change_dir(char **str_arr, char *input, char *exe, int *cnt)
+void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
 {
 	int fd, check;
 	char buff[1024];
 
 	(void)input;
 	(void)exe;
-
+	(void)exit_status;
 	check = 1;
 	if (str_arr[1] == NULL)
 	{
@@ -200,7 +201,7 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt)
  * Return: void
  */
 
-void print_env(char **str_arr, char *input, char *exe, int *cnt)
+void print_env(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
 {
 	int x = 0;
 
@@ -208,6 +209,7 @@ void print_env(char **str_arr, char *input, char *exe, int *cnt)
 	(void)input;
 	(void)exe;
 	(void)cnt;
+	(void)exit_status;
 	for (; environ[x]; x++)
 		printf("%s\n", environ[x]);
 }

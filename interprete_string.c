@@ -45,7 +45,7 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status
 	str_arr[x] = '\0';
 	if (check_builtin(str_arr[0]) != NULL)
 	{
-		(*check_builtin(str_arr[0]))(str_arr, input, exe, cnt);
+		(*check_builtin(str_arr[0]))(str_arr, input, exe, cnt, exit_status);
 		b = 1;
 	}
 	if (b != 1)

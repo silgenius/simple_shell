@@ -23,7 +23,7 @@ extern char **environ;
 typedef struct builtin_t
 {
 	char *str;
-	void (*builtin)(char **str_arr, char *input, char *exe, int *cnt);
+	void (*builtin)(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
 } builtin_t;
 
 /* ----- MAIN FUNCTIONS ----- */
@@ -39,12 +39,12 @@ void check_variable(char *input);
 
 
 /* ----- BUILTINS ----- */
-void (*check_builtin(char *string))(char **, char *, char *, int *);
-void shell_exit(char **str_arr, char *input, char *exe, int *cnt);
-void shell_setenv(char **str_arr, char *input, char *exe, int *cnt);
-void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt);
-void change_dir(char **str_arr, char *input, char *exe, int *cnt);
-void print_env(char **str_arr, char *input, char *exe, int *cnt);
+void (*check_builtin(char *string))(char **, char *, char *, int *, int *);
+void shell_exit(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
+void shell_setenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
+void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
+void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
+void print_env(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
 
 /* ---- HELPER FUNCTIONS ----- */
 char *create_env(char *var, char *value);
