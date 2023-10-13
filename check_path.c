@@ -37,14 +37,13 @@ char *check_path(char *command)
 			str = strtok(NULL, ":");
 		}
 		free(path_dup);
-		if (stat(command, &buf) == 0)
-		{
-			cmd_dup = strdup(command);
-			if (cmd_dup == NULL)
-				perror_exit();
-			return (cmd_dup);
-		}
-		return (NULL);
+	}
+	if (stat(command, &buf) == 0)
+	{
+		cmd_dup = strdup(command);
+		if (cmd_dup == NULL)
+			perror_exit();
+		return (cmd_dup);
 	}
 	return (NULL);
 }
