@@ -14,7 +14,7 @@ void write_var_to_input(char *var, char *input, int *count);
  *
  * Return: A dynamically allocated string with variables replaced.
  */
-void check_variable(char *input)
+void check_variable(char *input, int *exit_status)
 {
 	char *var, *ptr, *str = strdup(input);
 	int count, i;
@@ -32,10 +32,10 @@ void check_variable(char *input)
 			if (*str == '$')
 			{
 				sprintf(tmp, "%u", pid);
-				write_var_to_input(tmp, input, &count);
+				write_var_to_input(strdup(tmp), input, &count);
 			}
 			else if (*str == '?')
-				write_var_to_input("0", input, &count);
+				write_var_to_input(convert_int_to_str(*exit_status), input, &count);
 			else
 			{
 				while (*str != ' ' && *str != '\0')
@@ -48,7 +48,7 @@ void check_variable(char *input)
 				else
 				{
 					strcat(var, " ");
-					write_var_to_input(var, input, &count);
+					write_var_to_input(strdup(var), input, &count);
 				}
 			}
 		}
@@ -75,6 +75,10 @@ void check_variable(char *input)
  */
 void write_var_to_input(char *var, char *input, int *count)
 {
+	char *ptr;
+
+	ptr = var;
 	while (*var != '\0')
 		input[(*count)++] = *(var++);
+	free(ptr);
 }

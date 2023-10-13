@@ -54,7 +54,7 @@ int parse_string(char *input, char *exe, int *cnt, int *exit_status);
 int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status);
 int exec_cmd(char **str_arr, char *exe, int *cnt, int *exit_status);
 char *check_path(char *command);
-void check_variable(char *input);
+void check_variable(char *input, int *exit_status);
 
 
 /* ----- BUILTINS ----- */
@@ -77,6 +77,8 @@ void create_alias(alias **head, char *name, char *value);
 void print_alias(alias *head);
 char *search_alias(alias *head, char *name);
 void free_alias(alias *head);
-
+char *_strsep(char **str, char *delim);
+void check_comment(char *str);
+char *convert_int_to_str(int n);
 
 #endif

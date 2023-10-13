@@ -13,7 +13,7 @@ void create_alias(alias **head, char *name, char *value)
 	new_node->value = value;
 	new_node->next = NULL;
 
-	if (*head = NULL)
+	if (*head == NULL)
 		*head = new_node;
 	else
 	{

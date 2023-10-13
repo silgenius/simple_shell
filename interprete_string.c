@@ -15,12 +15,13 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status
 {
 	int ret = 1, b = 0;
 	size_t arr_size = sizeof(char *) * 24, x = 0, new_arr_size;
-	char *ptr;
+	char *ptr, *str_ptr;
 	char **str_arr = malloc(arr_size);
 
 	if (str_arr == NULL)
 		perror_exit();
-	ptr = strtok(str, " \n\t\r\a");
+	str_ptr = str;
+	ptr = _strsep(&str_ptr, " \n\t\r\a");
 	if (ptr == NULL)
 	{
 		free(str_arr);
@@ -28,11 +29,14 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status
 	}
 	while (ptr != NULL)
 	{
-		str_arr[x] = strdup(ptr);
-		if (str_arr[x] == NULL)
-			perror_exit();
-		ptr = strtok(NULL, " \n\t\r\a");
-		x++;
+		if (*ptr != '\0')
+		{
+			str_arr[x] = strdup(ptr);
+			if (str_arr[x] == NULL)
+				perror_exit();
+			x++;
+		}
+		ptr = _strsep(&str_ptr, " \n\t\r\a");
 		if (x >= arr_size)
 		{
 			new_arr_size = arr_size + 2;

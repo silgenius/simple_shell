@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * parse_string - checks the input command for comments, semicolons etc
+ * parse_string - checks the input command for semicolons etc
  * @input: input command
  * @exe: how the program is called
  * @cnt: loop count
@@ -10,16 +10,11 @@
 
 int parse_string(char *input, char *exe, int *cnt, int* exit_status)
 {
-	char *chk_cmt, *str, *ptr;
+	char *str, *ptr;
 	int x = 1, semi_present;
 
 	ptr = input;
-	/**
-	 * check if the cmd has any comments, return the part of the cmd before
-	 * the comment, full string will be returned if comment doesn't exist
-	 */
-	chk_cmt = strsep(&ptr, "#");
-	if (*chk_cmt == ';')
+	if (*ptr == ';')
 	{
 		printf("%s: %d: Syntax error: %c;%c unexpected\n", exe, *cnt, 34, 34);
 		(*cnt)--;
@@ -29,8 +24,8 @@ int parse_string(char *input, char *exe, int *cnt, int* exit_status)
 	 * check if chk_cmt has semicolons, return the part of the chk_cmd and
 	 * and pass to interprete command till it returns NULL
 	 */
-	semi_present = _strchr(chk_cmt, ';');
-	str = strsep(&chk_cmt, ";");
+	semi_present = _strchr(ptr, ';');
+	str = _strsep(&ptr, ";");
 	while (str != NULL)
 	{
 		if (*str != '\0')
@@ -45,7 +40,7 @@ int parse_string(char *input, char *exe, int *cnt, int* exit_status)
 			x = 1;
 			break;
 		}
-		str = strsep(&chk_cmt, ";");
+		str = _strsep(&ptr, ";");
 	}
 	return (x);
 }

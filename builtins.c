@@ -183,7 +183,7 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
 		fd = chdir(str_arr[1]);
 	if (fd == -1)
 	{
-		perror("./hsh: cd");
+		dprintf(STDERR_FILENO, "%s: %d: cd: can't cd to %s\n", exe, *cnt, str_arr[1]);
 		(*cnt)--;
 	}
 	else
