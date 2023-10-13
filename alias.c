@@ -1,5 +1,8 @@
 #include "main.h"
 
+/* Global pointer to the head of the linked list */
+alias *head = NULL;
+
 void create_alias(alias **head, char *name, char *value)
 {
 	alias *ptr;
@@ -13,7 +16,7 @@ void create_alias(alias **head, char *name, char *value)
 	new_node->value = value;
 	new_node->next = NULL;
 
-	if (*head = NULL)
+	if (*head == NULL)
 		*head = new_node;
 	else
 	{
