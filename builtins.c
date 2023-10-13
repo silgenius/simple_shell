@@ -169,7 +169,7 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
 	check = 1;
 	if (str_arr[1] == NULL)
 	{
-		fd = chdir(getenv("HOME"));
+		fd = chdir("/root");
 		check = 0;
 	}
 	else if (strcmp(str_arr[1], "-") == 0)
