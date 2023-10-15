@@ -13,6 +13,7 @@ void (*check_builtin(char *string))(char **, char *, char *, int *, int *)
 			    {"unsetenv", shell_unsetenv},
 			    {"cd", change_dir},
 			    {"env", print_env},
+			    {"alias", alias_builtin},
 			    {NULL, NULL}};
 	int x = 0;
 

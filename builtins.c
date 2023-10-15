@@ -13,6 +13,8 @@ void shell_exit(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
 {
 	int exit_value = *exit_status;
 
+	free_alias();
+
 	if (str_arr[1])
 	{
 		if ((exit_value = string_to_int(str_arr[1])) == 0)
@@ -165,11 +167,12 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
 	(void)input;
 	(void)exe;
 	(void)exit_status;
+
 	pwd_old = getenv("PWD");
 	check = 1;
 	if (str_arr[1] == NULL)
 	{
-		fd = chdir("/root");
+		fd = chdir(getenv("HOME"));
 		check = 0;
 	}
 	else if (strcmp(str_arr[1], "-") == 0)

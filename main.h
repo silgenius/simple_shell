@@ -64,6 +64,7 @@ void shell_setenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_st
 void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
 void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
 void print_env(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
+void alias_builtin(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
 
 /* ---- HELPER FUNCTIONS ----- */
 char *create_env(char *var, char *value);
@@ -73,10 +74,10 @@ void write_err(char *str);
 void perror_exit(void);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 int _strchr(char *s, char c);
-void create_alias(alias **head, char *name, char *value);
-void print_alias(alias *head);
-char *search_alias(alias *head, char *name);
-void free_alias(alias *head);
+void create_alias(char *name, char *value);
+void print_alias(void);
+char *search_alias(char *name);
+void free_alias(void);
 char *_strsep(char **str, char *delim);
 void check_comment(char *str);
 char *convert_int_to_str(int n);
