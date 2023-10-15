@@ -170,6 +170,7 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
 
 	pwd_old = getenv("PWD");
 	check = 1;
+
 	if (str_arr[1] == NULL)
 	{
 		fd = chdir(getenv("HOME"));
