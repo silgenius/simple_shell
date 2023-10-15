@@ -120,3 +120,37 @@ void free_alias(void)
 		head = ptr;
 	}
 }
+
+/**
+ * replace_alias - Replaces an alias with its corresponding value.
+ * @str_arr: The alias to be replaced.
+ *
+ * Description: This function searches for an alias with the specified name.
+ * If found, it reallocates memory for the alias value, copies the
+ * value, and returns a pointer to the new string. If the alias is
+ * not found, it returns the original string.
+ *
+ * Return: A pointer to the new string if the alias is found, or the original
+ * string if not found.
+ */
+char *replace_alias(char *str_arr)
+{
+	alias *ptr;
+
+	ptr = head;
+
+	while (ptr != NULL)
+	{
+		if (strcmp(ptr->name, str_arr) == 0)
+		{
+			str_arr = realloc(str_arr, sizeof(ptr->value));
+			str_arr = strdup(ptr->value);
+			return (str_arr);
+		}
+
+		else
+			ptr = ptr->next;
+	}
+
+	return (str_arr);
+}

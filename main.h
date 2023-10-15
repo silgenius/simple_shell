@@ -55,6 +55,7 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status
 int exec_cmd(char **str_arr, char *exe, int *cnt, int *exit_status);
 char *check_path(char *command);
 void check_variable(char *input, int *exit_status);
+char *replace_alias(char *str_arr);
 
 
 /* ----- BUILTINS ----- */
