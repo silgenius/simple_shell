@@ -42,5 +42,6 @@ int parse_string(char *input, char *exe, int *cnt, int* exit_status)
 		}
 		str = _strsep(&ptr, ";");
 	}
+
 	return (x);
 }

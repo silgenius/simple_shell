@@ -59,6 +59,5 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status
 	if (b != 1)
 		ret = (exec_cmd(str_arr, exe, cnt, exit_status));
 	free_str_arr(str_arr);
-	free(input);
 	return (ret);
 }

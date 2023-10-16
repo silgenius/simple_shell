@@ -35,5 +35,6 @@ void shell_loop(char *exe)
 		check_variable(input, &exit_status);
 		x = parse_string(input, exe, &count, &exit_status);
 		count++;
+		free(input);
 	}
 }
