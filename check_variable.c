@@ -5,6 +5,7 @@ void write_var_to_input(char *var, char *input, int *count);
 /**
  * check_variable - Handles variable replacement in input string.
  * @input: The input string to be processed.
+ * @exit_status: error code
  *
  * Description: This function takes an input string and processes it to replace
  * variables. It handles the $? variable, which represents the

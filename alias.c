@@ -1,7 +1,5 @@
+#define DEFINE_ALIAS
 #include "main.h"
-
-/* Global pointer to the head of the linked list */
-alias *head = NULL;
 
 /**
  * create_alias - Creates or updates an alias with a given name and value.
@@ -138,9 +136,15 @@ char *replace_alias(char *str_arr)
 	{
 		if (strcmp(ptr->name, str_arr) == 0)
 		{
-			str_arr = realloc(str_arr, sizeof(ptr->value));
+			/*
+			 * no need to realloc, just free str_arr, strdup
+			 * already dynamically allocs memory
+			 */
+			free(str_arr);
 			str_arr = strdup(ptr->value);
-			return (str_arr);
+			if (str_arr == NULL)
+				perror_exit();
+			return (replace_alias(str_arr));
 		}
 
 		else

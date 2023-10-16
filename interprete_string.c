@@ -8,13 +8,14 @@
  * @exe: name of the program
  * @cnt: the loop count
  * @str: string to be split
+ * @exit_code: value of error code
  * Return: 0 or 1
  */
 
-int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status)
+int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_code)
 {
-	int ret = 1, b = 0;
-	size_t arr_size = sizeof(char *) * 24, x = 0, new_arr_size;
+	int ret = 1;
+	size_t arr_size = sizeof(char *) * 24, x = 0;
 	char *ptr, *str_ptr;
 	char **str_arr = malloc(arr_size);
 
@@ -39,26 +40,18 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status
 		ptr = _strsep(&str_ptr, " \n\t\r\a");
 		if (x >= arr_size)
 		{
-			new_arr_size = arr_size + 2;
-			str_arr = _realloc(str_arr, arr_size, new_arr_size);
-			arr_size = new_arr_size;
+			str_arr = _realloc(str_arr, arr_size, i_arr(&arr_size));
 			if (str_arr == NULL)
 				perror_exit();
 		}
 	}
 	str_arr[x] = '\0';
-
-	/* check if command is an alias */
 	str_arr[0] = replace_alias(str_arr[0]);
-
 	if (check_builtin(str_arr[0]) != NULL)
-	{
-		(*check_builtin(str_arr[0]))(str_arr, input, exe, cnt, exit_status);
-		b = 1;
-	}
-	if (b != 1)
-		ret = (exec_cmd(str_arr, exe, cnt, exit_status));
+		(*check_builtin(str_arr[0]))(str_arr, input, exe,
+					     cnt, exit_code);
+	else
+		ret = (exec_cmd(str_arr, exe, cnt, exit_code));
 	free_str_arr(str_arr);
-	free(input);
 	return (ret);
 }

@@ -10,7 +10,7 @@ void check_comment(char *str)
 {
 	int x = 0;
 
-	while(str[x])
+	while (str[x])
 	{
 		if (str[x] == '#')
 		{

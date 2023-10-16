@@ -6,10 +6,12 @@
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
+ * @exit_status: the value of the current error code
  * Return: void
  */
 
-void shell_exit(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
+void shell_exit(char **str_arr, char *input, char *exe,
+		int *cnt, int *exit_status)
 {
 	int exit_value = *exit_status;
 
@@ -17,9 +19,11 @@ void shell_exit(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
 
 	if (str_arr[1])
 	{
-		if ((exit_value = string_to_int(str_arr[1])) == 0)
+		exit_value = string_to_int(str_arr[1]);
+		if (exit_value == 0)
 		{
-			dprintf(STDERR_FILENO, "%s: %d: exit: Illegal number: %s\n", exe, *cnt, str_arr[1]);
+			dprintf(2, "%s: %d: exit: Illegal number: %s\n",
+				exe, *cnt, str_arr[1]);
 			if (!isatty(STDERR_FILENO))
 			{
 				free(input);
@@ -49,10 +53,12 @@ void shell_exit(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
+ * @exit_status: the value of the current error code
  * Return: void
  */
 
-void shell_setenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
+void shell_setenv(char **str_arr, char *input, char *exe,
+		  int *cnt, int *exit_status)
 {
 	char *str, *new_var, *env_dup;
 	int x = 0;
@@ -100,10 +106,12 @@ void shell_setenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_st
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
+ * @exit_status: the value of the current error code
  * Return: void
  */
 
-void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
+void shell_unsetenv(char **str_arr, char *input, char *exe,
+		    int *cnt, int *exit_status)
 {
 	char *str, *env_dup;
 	int x = 0;
@@ -148,6 +156,7 @@ void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
+ * @exit_status: the value of the current error code
  *
  * Description: This function takes an array of strings where the first element
  * is the command and the second element (if present) is the path
@@ -158,7 +167,8 @@ void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_
  * Return: 1 if the directory change is successful, otherwise an error message
  * is printed and the return value is still 1.
  */
-void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
+void change_dir(char **str_arr, char *input, char *exe,
+		int *cnt, int *exit_status)
 {
 	int fd, check;
 	char buff[1024];
@@ -179,7 +189,7 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
 	else if (strcmp(str_arr[1], "-") == 0)
 	{
 		fd = chdir(getenv("OLDPWD"));
-		fd == - 1 ? fd = -1 : printf("%s\n", getenv("OLDPWD"));
+		fd == -1 ? fd = -1 : printf("%s\n", getenv("OLDPWD"));
 		check = 0;
 	}
 
@@ -187,7 +197,8 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
 		fd = chdir(str_arr[1]);
 	if (fd == -1)
 	{
-		dprintf(STDERR_FILENO, "%s: %d: cd: can't cd to %s\n", exe, *cnt, str_arr[1]);
+		dprintf(STDERR_FILENO, "%s: %d: cd: can't cd to %s\n",
+			exe, *cnt, str_arr[1]);
 		(*cnt)--;
 	}
 	else
@@ -206,10 +217,12 @@ void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_stat
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
+ * @exit_status: the value of the current error code
  * Return: void
  */
 
-void print_env(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
+void print_env(char **str_arr, char *input, char *exe,
+	       int *cnt, int *exit_status)
 {
 	int x = 0;
 

@@ -5,10 +5,11 @@
  * @str_arr: array of strings
  * @exe: name of the program
  * @cnt: loop count
+ * @exit_status: value of the current error code
  * Return: 1
  */
 
-int exec_cmd(char **str_arr, char *exe, int *cnt, int* exit_status)
+int exec_cmd(char **str_arr, char *exe, int *cnt, int *exit_status)
 {
 	pid_t pid;
 	int status;
@@ -17,7 +18,8 @@ int exec_cmd(char **str_arr, char *exe, int *cnt, int* exit_status)
 	cmd = check_path(str_arr[0]);
 	if (cmd == NULL)
 	{
-		dprintf(STDERR_FILENO, "%s: %d: %s: not found\n", exe, *cnt, str_arr[0]);
+		dprintf(STDERR_FILENO, "%s: %d: %s: not found\n",
+			exe, *cnt, str_arr[0]);
 		*exit_status = 127;
 		(*cnt)--;
 	}

@@ -23,13 +23,14 @@ extern char **environ;
 typedef struct builtin_t
 {
 	char *str;
-	void (*builtin)(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
+	void (*builtin)(char **str_arr, char *input, char *exe,
+			int *cnt, int *exit_status);
 } builtin_t;
 
 /**
- * struct alias - Represents an alias in a linked list.
- * @alias_name: The name of the alias.
- * @alias_value: The value associated with the alias.
+ * struct alias_t - Represents an alias in a linked list.
+ * @name: The name of the alias.
+ * @value: The value associated with the alias.
  * @next: A pointer to the next alias in the linked list.
  *
  * Description: This structure defines a node in a linked list of aliases.
@@ -38,12 +39,19 @@ typedef struct builtin_t
  * dynamic list of aliases, where each node represents a unique alias
  * along with its corresponding value.
  */
-typedef struct alias_t {
-    char *name;
-    char *value;
-    struct alias_t *next;
+typedef struct alias_t
+{
+	char *name;
+	char *value;
+	struct alias_t *next;
 } alias;
 
+/* Global pointer to the head of the linked list */
+#ifdef DEFINE_ALIAS
+alias *head = NULL;
+#else
+extern alias *head;
+#endif
 
 /* ----- MAIN FUNCTIONS ----- */
 
@@ -51,7 +59,8 @@ void shell_loop(char *exe);
 ssize_t read_line(char **input, ssize_t *bufsize);
 
 int parse_string(char *input, char *exe, int *cnt, int *exit_status);
-int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_status);
+int interprete_cmd(char *input, char *exe, int *cnt, char *str,
+		   int *exit_code);
 int exec_cmd(char **str_arr, char *exe, int *cnt, int *exit_status);
 char *check_path(char *command);
 void check_variable(char *input, int *exit_status);
@@ -60,12 +69,18 @@ char *replace_alias(char *str_arr);
 
 /* ----- BUILTINS ----- */
 void (*check_builtin(char *string))(char **, char *, char *, int *, int *);
-void shell_exit(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
-void shell_setenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
-void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
-void change_dir(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
-void print_env(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
-void alias_builtin(char **str_arr, char *input, char *exe, int *cnt, int *exit_status);
+void shell_exit(char **str_arr, char *input, char *exe, int *cnt,
+		int *exit_status);
+void shell_setenv(char **str_arr, char *input, char *exe, int *cnt,
+		  int *exit_status);
+void shell_unsetenv(char **str_arr, char *input, char *exe, int *cnt,
+		    int *exit_status);
+void change_dir(char **str_arr, char *input, char *exe, int *cnt,
+		int *exit_status);
+void print_env(char **str_arr, char *input, char *exe, int *cnt,
+	       int *exit_status);
+void alias_builtin(char **str_arr, char *input, char *exe, int *cnt,
+		   int *exit_status);
 
 /* ---- HELPER FUNCTIONS ----- */
 char *create_env(char *var, char *value);
@@ -83,5 +98,7 @@ char *_strsep(char **str, char *delim);
 void check_comment(char *str);
 char *convert_int_to_str(int n);
 char *modify_alias(alias *check, char *name, char *value);
+size_t i_arr(size_t *val);
+void print_colon_err(char *exe, int *cnt, int *exit_status);
 
 #endif

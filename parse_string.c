@@ -5,10 +5,11 @@
  * @input: input command
  * @exe: how the program is called
  * @cnt: loop count
+ * @exit_status: value of error code
  * Return: Always 1
  */
 
-int parse_string(char *input, char *exe, int *cnt, int* exit_status)
+int parse_string(char *input, char *exe, int *cnt, int *exit_status)
 {
 	char *str, *ptr;
 	int x = 1, semi_present;
@@ -16,12 +17,12 @@ int parse_string(char *input, char *exe, int *cnt, int* exit_status)
 	ptr = input;
 	if (*ptr == ';')
 	{
-		printf("%s: %d: Syntax error: %c;%c unexpected\n", exe, *cnt, 34, 34);
+		print_colon_err(exe, cnt, exit_status);
 		(*cnt)--;
 		return (1);
 	}
 	/**
-	 * check if chk_cmt has semicolons, return the part of the chk_cmd and
+	 * check if ptr has semicolons, return that part of the ptr and
 	 * and pass to interprete command till it returns NULL
 	 */
 	semi_present = _strchr(ptr, ';');
@@ -34,7 +35,7 @@ int parse_string(char *input, char *exe, int *cnt, int* exit_status)
 		{
 			if (semi_present)
 			{
-				dprintf(STDERR_FILENO, "%s: %d: Syntax error: %c;%c unexpected\n", exe, *cnt, 34, 34);
+				print_colon_err(exe, cnt, exit_status);
 				(*cnt)--;
 			}
 			x = 1;
