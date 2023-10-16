@@ -9,9 +9,10 @@
  * @exit_status: A pointer to the exit status (not used in this function).
  *
  * Description: This function implements the behavior of the 'alias' command in
- *              the shell. It allows the user to define, print, or modify aliases.
+ * the shell. It allows the user to define, print, or modify aliases.
  */
-void alias_builtin(char **str_arr, char *input, char *exe, int *cnt, int *exit_status)
+void alias_builtin(char **str_arr, char *input,
+		char *exe, int *cnt, int *exit_status)
 {
 
 	char *name, *value, *equal_sign;
@@ -25,7 +26,7 @@ void alias_builtin(char **str_arr, char *input, char *exe, int *cnt, int *exit_s
 		print_alias();
 	else
 	{
-		for(i = 1; str_arr[i] != NULL; i++)
+		for (i = 1; str_arr[i] != NULL; i++)
 		{
 			equal_sign = strchr(str_arr[i], '=');
 

@@ -15,11 +15,17 @@ alias *head = NULL;
  */
 void create_alias(char *name, char *value)
 {
-	alias *ptr;
-	alias *new_node;
-	alias *check;
+	alias *ptr, *check, *new_node;
+	char *tmp;
+	int x = 1;
 
 	check = head;
+	if (*value == '\'')
+	{
+		value++;
+		tmp = strndup(value, strlen(value) - 1);
+		x = 0;
+	}
 
 	/* modifies alias with similar name */
 	while (check != NULL)
@@ -39,7 +45,14 @@ void create_alias(char *name, char *value)
 		perror("Error");
 
 	new_node->name = strdup(name);
-	new_node->value = strdup(value);
+
+	if (x)
+		new_node->value = strdup(value);
+	else
+	{
+		new_node->value = strdup(tmp);
+		free(tmp);
+	}
 	new_node->next = NULL;
 
 	if (head == NULL)
@@ -56,8 +69,8 @@ void create_alias(char *name, char *value)
 /**
  * print_alias - Prints a list of all aliases.
  *
- * Description: This function prints a list of all aliases, one per line, in the
- * format name='value'.
+ * Description: This function prints a list of all aliases,
+ * one per line, in the format name='value'.
  */
 void print_alias(void)
 {
@@ -66,8 +79,7 @@ void print_alias(void)
 	ptr = head;
 	while (ptr != NULL)
 	{
-		*ptr->value == '\'' ? printf("%s=%s\n", ptr->name, ptr->value) :
-			printf("%s=\'%s\'\n", ptr->name, ptr->value);
+		printf("%s=\'%s\'\n", ptr->name, ptr->value);
 		ptr = ptr->next;
 	}
 }
@@ -91,8 +103,7 @@ char *search_alias(char *name)
 	{
 		if (strcmp(ptr->name, name) == 0)
 		{
-			*ptr->value == '\'' ? printf("%s=%s\n", ptr->name, ptr->value) :
-				printf("%s=\'%s\'\n", ptr->name, ptr->value);
+			printf("%s=\'%s\'\n", ptr->name, ptr->value);
 			return (ptr->value);
 		}
 		else
