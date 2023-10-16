@@ -52,3 +52,32 @@ void alias_builtin(char **str_arr, char *input,
 		}
 	}
 }
+
+/**
+ * modify_alias - Modifies the value of an existing alias.
+ * @check: Pointer to the head of the alias linked list.
+ * @name: The name of the alias to be modified.
+ * @value: The new value for the alias.
+ *
+ * Description: This function iterates through the linked list of aliases. If
+ * it finds an alias with a matching name, it updates the value and
+ * returns a pointer to the updated value. If no match is found, it
+ * returns NULL.
+ *
+ * Return: A pointer to the updated value if modification is successful, or
+ * NULL if the alias is not found.
+ */
+char *modify_alias(alias *check, char *name, char *value)
+{
+	while (check != NULL)
+	{
+		if (strcmp(check->name, name) == 0)
+		{
+			check->value = strdup(value);
+			return (check->value);
+		}
+		else
+			check = check->next;
+	}
+	return (NULL);
+}

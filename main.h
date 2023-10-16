@@ -82,5 +82,6 @@ void free_alias(void);
 char *_strsep(char **str, char *delim);
 void check_comment(char *str);
 char *convert_int_to_str(int n);
+char *modify_alias(alias *check, char *name, char *value);
 
 #endif

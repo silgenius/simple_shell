@@ -17,42 +17,26 @@ void create_alias(char *name, char *value)
 {
 	alias *ptr, *check, *new_node;
 	char *tmp;
-	int x = 1;
 
 	check = head;
+	/* truncate single quote ( ' ) if found in value */
 	if (*value == '\'')
 	{
 		value++;
 		tmp = strndup(value, strlen(value) - 1);
-		x = 0;
+		value = strdup(tmp);
 	}
 
 	/* modifies alias with similar name */
-	while (check != NULL)
-	{
-		if (strcmp(check->name, name) == 0)
-		{
-			check->value = strdup(value);
-			return;
-		}
-		else
-			check = check->next;
-	}
-
+	if (modify_alias(check, name, value) != NULL)
+		return;
 
 	new_node = malloc(sizeof(alias));
 	if (new_node == NULL)
 		perror("Error");
 
 	new_node->name = strdup(name);
-
-	if (x)
-		new_node->value = strdup(value);
-	else
-	{
-		new_node->value = strdup(tmp);
-		free(tmp);
-	}
+	new_node->value = strdup(value);
 	new_node->next = NULL;
 
 	if (head == NULL)
