@@ -9,38 +9,42 @@
 char *check_path(char *command)
 {
 	struct stat buf;
-	char *path, *path_dup, *str, *f_path, *cmd_dup;
+	char *path, *path_dup, *str, *ptr, *f_path, *cmd_dup;
 	int cmd_len, dir_len;
 
 	path = getenv("PATH");
 	if (path)
 	{
-		path_dup = strdup(path);
-		cmd_len = strlen(command);
-		str = strtok(path_dup, ":");
+		path_dup = _strdup(path);
+		ptr = path_dup;
+		cmd_len = _strlen(command);
+		str = _strsep(&ptr, ":");
 		while (str != NULL)
 		{
-			dir_len = strlen(str);
-			f_path = malloc(sizeof(char) * (dir_len + cmd_len + 2));
-			if (f_path == NULL)
-				perror_exit();
-			strcpy(f_path, str);
-			strcat(f_path, "/");
-			strcat(f_path, command);
-			strcat(f_path, "\0");
-			if (stat(f_path, &buf) == 0)
+			if (*str != '\0')
 			{
-				free(path_dup);
-				return (f_path);
+				dir_len = _strlen(str);
+				f_path = malloc(sizeof(char) * (dir_len + cmd_len + 2));
+				if (f_path == NULL)
+					perror_exit();
+				_strcpy(f_path, str);
+				_strcat(f_path, "/");
+				_strcat(f_path, command);
+				_strcat(f_path, "\0");
+				if (stat(f_path, &buf) == 0)
+				{
+					free(path_dup);
+					return (f_path);
+				}
+				free(f_path);
 			}
-			free(f_path);
-			str = strtok(NULL, ":");
+			str = _strsep(&ptr, ":");
 		}
 		free(path_dup);
 	}
 	if (stat(command, &buf) == 0)
 	{
-		cmd_dup = strdup(command);
+		cmd_dup = _strdup(command);
 		if (cmd_dup == NULL)
 			perror_exit();
 		return (cmd_dup);

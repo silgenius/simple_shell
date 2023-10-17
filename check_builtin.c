@@ -19,7 +19,7 @@ void (*check_builtin(char *string))(char **, char *, char *, int *, int *)
 
 	while (list[x].str != NULL)
 	{
-		if (strcmp(list[x].str, string) == 0)
+		if (_strcmp(list[x].str, string) == 0)
 			return (list[x].builtin);
 		x++;
 	}

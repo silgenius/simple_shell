@@ -60,7 +60,7 @@ void shell_exit(char **str_arr, char *input, char *exe,
 void shell_setenv(char **str_arr, char *input, char *exe,
 		  int *cnt, int *exit_status)
 {
-	char *str, *new_var, *env_dup;
+	char *str, *ptr, *new_var, *env_dup;
 	int x = 0;
 
 	(void)input;
@@ -75,13 +75,14 @@ void shell_setenv(char **str_arr, char *input, char *exe,
 	}
 	for (; environ[x]; x++)
 	{
-		env_dup = strdup(environ[x]);
-		str = strtok(env_dup, "=");
-		if (strcmp(str_arr[1], str) == 0)
+		env_dup = _strdup(environ[x]);
+		ptr = env_dup;
+		str = _strsep(&ptr, "=");
+		if (*str != '\0' && _strcmp(str_arr[1], str) == 0)
 		{
 			free(env_dup);
 			free(environ[x]);
-			environ[x] = strdup(new_var);
+			environ[x] = _strdup(new_var);
 			if (environ[x] == NULL)
 				perror_exit();
 			free(new_var);
@@ -91,7 +92,7 @@ void shell_setenv(char **str_arr, char *input, char *exe,
 	}
 	if (!environ[x])
 	{
-		environ[x] = strdup(new_var);
+		environ[x] = _strdup(new_var);
 		if (environ[x] == NULL)
 			perror_exit();
 		x++;
@@ -113,7 +114,7 @@ void shell_setenv(char **str_arr, char *input, char *exe,
 void shell_unsetenv(char **str_arr, char *input, char *exe,
 		    int *cnt, int *exit_status)
 {
-	char *str, *env_dup;
+	char *str, *ptr, *env_dup;
 	int x = 0;
 
 	(void)input;
@@ -127,9 +128,10 @@ void shell_unsetenv(char **str_arr, char *input, char *exe,
 	}
 	for (; environ[x]; x++)
 	{
-		env_dup = strdup(environ[x]);
-		str = strtok(env_dup, "=");
-		if (strcmp(str_arr[1], str) == 0)
+		env_dup = _strdup(environ[x]);
+		ptr = env_dup;
+		str = _strsep(&ptr, "=");
+		if (*str != '\0' && strcmp(str_arr[1], str) == 0)
 		{
 			free(env_dup);
 			for (; environ[x]; x++)
@@ -137,7 +139,7 @@ void shell_unsetenv(char **str_arr, char *input, char *exe,
 				free(environ[x]);
 				if (environ[x + 1])
 				{
-					environ[x] = strdup(environ[x + 1]);
+					environ[x] = _strdup(environ[x + 1]);
 					if (environ[x] == NULL)
 						perror_exit();
 				}
@@ -186,7 +188,7 @@ void change_dir(char **str_arr, char *input, char *exe,
 		fd = chdir(getenv("HOME"));
 		check = 0;
 	}
-	else if (strcmp(str_arr[1], "-") == 0)
+	else if (_strcmp(str_arr[1], "-") == 0)
 	{
 		fd = chdir(getenv("OLDPWD"));
 		fd == -1 ? fd = -1 : printf("%s\n", getenv("OLDPWD"));

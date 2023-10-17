@@ -12,7 +12,7 @@ void write_err(char *str)
 
 	if (str == NULL)
 		return;
-	wr = write(STDERR_FILENO, str, strlen(str));
+	wr = write(STDERR_FILENO, str, _strlen(str));
 	if (wr == -1)
 		perror("Error");
 }

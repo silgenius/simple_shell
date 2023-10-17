@@ -14,7 +14,7 @@ char *_strsep(char **str, char *delim)
 	start = *str;
 	if (start == NULL)
 		return (NULL);
-	end = start + strcspn(start, delim);
+	end = start + _strcspn(start, delim);
 	if (*end)
 	{
 		*end++ = '\0';

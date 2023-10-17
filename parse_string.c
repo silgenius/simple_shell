@@ -11,8 +11,8 @@
 
 int parse_string(char *input, char *exe, int *cnt, int *exit_status)
 {
-	char *str, *ptr;
-	int x = 1, semi_present;
+	char *str, *ptr, *semi_present;
+	int x = 1;
 
 	ptr = input;
 	if (*ptr == ';')

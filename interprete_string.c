@@ -32,7 +32,7 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_code)
 	{
 		if (*ptr != '\0')
 		{
-			str_arr[x] = strdup(ptr);
+			str_arr[x] = _strdup(ptr);
 			if (str_arr[x] == NULL)
 				perror_exit();
 			x++;

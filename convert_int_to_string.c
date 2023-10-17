@@ -18,6 +18,8 @@ char *convert_int_to_str(int n)
 		count *= 10;
 	}
 	tmp = n;
+	if (n == 0)
+		len++;
 	while (tmp > 0)
 	{
 		tmp /= 10;

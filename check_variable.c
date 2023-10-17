@@ -17,7 +17,7 @@ void write_var_to_input(char *var, char *input, int *count);
  */
 void check_variable(char *input, int *exit_status)
 {
-	char *var, *ptr, *str = strdup(input);
+	char *var, *ptr, *str = _strdup(input);
 	int count, i;
 	char tmp[10];
 	pid_t pid = getpid();
@@ -45,10 +45,13 @@ void check_variable(char *input, int *exit_status)
 				var = getenv(tmp);
 
 				if (var == NULL)
+				{
 					input[count++] = ' ';
+					str--;
+				}
 				else
 				{
-					strcat(var, " ");
+					_strcat(var, " ");
 					write_var_to_input(strdup(var), input, &count);
 				}
 			}

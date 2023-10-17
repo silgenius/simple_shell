@@ -21,8 +21,8 @@ void create_alias(char *name, char *value)
 	if (*value == '\'')
 	{
 		value++;
-		tmp = strndup(value, strlen(value) - 1);
-		value = strdup(tmp);
+		tmp = _strndup(value, _strlen(value) - 1);
+		value = _strdup(tmp);
 	}
 
 	/* modifies alias with similar name */
@@ -33,8 +33,8 @@ void create_alias(char *name, char *value)
 	if (new_node == NULL)
 		perror("Error");
 
-	new_node->name = strdup(name);
-	new_node->value = strdup(value);
+	new_node->name = _strdup(name);
+	new_node->value = _strdup(value);
 	new_node->next = NULL;
 
 	if (head == NULL)
@@ -83,7 +83,7 @@ char *search_alias(char *name)
 	ptr = head;
 	while (ptr != NULL)
 	{
-		if (strcmp(ptr->name, name) == 0)
+		if (_strcmp(ptr->name, name) == 0)
 		{
 			printf("%s=\'%s\'\n", ptr->name, ptr->value);
 			return (ptr->value);
@@ -134,14 +134,14 @@ char *replace_alias(char *str_arr)
 
 	while (ptr != NULL)
 	{
-		if (strcmp(ptr->name, str_arr) == 0)
+		if (_strcmp(ptr->name, str_arr) == 0)
 		{
 			/*
 			 * no need to realloc, just free str_arr, strdup
 			 * already dynamically allocs memory
 			 */
 			free(str_arr);
-			str_arr = strdup(ptr->value);
+			str_arr = _strdup(ptr->value);
 			if (str_arr == NULL)
 				perror_exit();
 			return (replace_alias(str_arr));

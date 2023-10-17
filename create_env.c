@@ -11,9 +11,9 @@ char *create_env(char *var, char *value)
 {
 	char *new_var;
 
-	if (var == NULL || value == NULL || strlen(var) == 0 || _strchr(var, '='))
+	if (var == NULL || value == NULL || _strlen(var) == 0 || _strchr(var, '='))
 		return (NULL);
-	new_var = malloc(sizeof(char) * (strlen(var) + strlen(value) + 2));
+	new_var = malloc(sizeof(char) * (_strlen(var) + _strlen(value) + 2));
 	if (new_var == NULL)
 		perror_exit();
 	strcpy(new_var, var);

@@ -12,7 +12,7 @@ int string_to_int(char *s)
 
 	if (s == NULL)
 		return (num);
-	len = strlen(s);
+	len = _strlen(s);
 	for (; x < len; x++)
 	{
 		if (s[x] > 47 && s[x] < 58)

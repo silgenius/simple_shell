@@ -28,16 +28,16 @@ void alias_builtin(char **str_arr, char *input,
 	{
 		for (i = 1; str_arr[i] != NULL; i++)
 		{
-			equal_sign = strchr(str_arr[i], '=');
+			equal_sign = _strchr(str_arr[i], '=');
 
 			if (equal_sign != NULL && equal_sign != str_arr[i])
 			{
 				/* Allocate memory for name and copy characters up to the equals sign */
 				name = malloc((equal_sign - str_arr[i]) + 1);
-				strncpy(name, str_arr[i], equal_sign - str_arr[i]);
+				_strncpy(name, str_arr[i], equal_sign - str_arr[i]);
 
 				name[equal_sign - str_arr[i]] = '\0';
-				value = strdup(equal_sign + 1);
+				value = _strdup(equal_sign + 1);
 
 				create_alias(name, value);
 
@@ -73,7 +73,7 @@ char *modify_alias(alias *check, char *name, char *value)
 	{
 		if (strcmp(check->name, name) == 0)
 		{
-			check->value = strdup(value);
+			check->value = _strdup(value);
 			return (check->value);
 		}
 		else
