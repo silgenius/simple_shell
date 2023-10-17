@@ -20,7 +20,6 @@ void alias_builtin(char **str_arr, char *input,
 
 	(void)input;
 	(void)exe;
-	(void)exit_status;
 
 	if (str_arr[1] == NULL)
 		print_alias();
@@ -46,7 +45,7 @@ void alias_builtin(char **str_arr, char *input,
 			}
 			else
 			{
-				search_alias(str_arr[i]);
+				search_alias(str_arr[i], exit_status);
 				(*cnt)--;
 			}
 		}

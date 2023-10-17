@@ -201,6 +201,7 @@ void change_dir(char **str_arr, char *input, char *exe,
 	{
 		dprintf(STDERR_FILENO, "%s: %d: cd: can't cd to %s\n",
 			exe, *cnt, str_arr[1]);
+		*exit_status = 1;
 		(*cnt)--;
 	}
 	else

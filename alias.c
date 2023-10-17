@@ -76,7 +76,7 @@ void print_alias(void)
  *
  * Return: A pointer to the alias value if found, or NULL if not found.
  */
-char *search_alias(char *name)
+char *search_alias(char *name, int *exit_status)
 {
 	alias *ptr;
 
@@ -93,6 +93,7 @@ char *search_alias(char *name)
 	}
 
 	printf("./hsh: alias: %s: not found\n", name);
+	*exit_status = 1;
 	return (NULL);
 }
 
