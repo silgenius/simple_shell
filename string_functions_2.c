@@ -66,7 +66,7 @@ char *_strcpy(char *dest, char *src)
 
 char *_strncpy(char *dest, char *src, int n)
 {
-	int x, length= 0;
+	int x, length = 0;
 
 	length = _strlen(src) > n ? n : _strlen(src);
 	for (x = 0; x < length; x++)
