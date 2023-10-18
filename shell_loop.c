@@ -1,4 +1,16 @@
+#define EXIT_STATUS
 #include "main.h"
+
+/**
+ * _prompt - prints a prompt
+ *
+ * Return: void
+ */
+
+void _prompt(void)
+{
+	write(STDOUT_FILENO, "($) ", 4);
+}
 
 /**
  * shell_loop - initiates the shell
@@ -9,7 +21,7 @@
 void shell_loop(char *exe)
 {
 	char *input;
-	int count = 1, x = 1, exit_status = 0;
+	int count = 1, x = 1;
 	ssize_t bufsize = line_size, len;
 
 	while (x)
@@ -18,7 +30,7 @@ void shell_loop(char *exe)
 		if (input == NULL)
 			perror_exit();
 		if (isatty(STDIN_FILENO))
-			printf("($) ");
+			_prompt();
 
 		len = read_line(&input, &bufsize);
 		if (len == -1)
@@ -32,8 +44,8 @@ void shell_loop(char *exe)
 			continue;
 		}
 		check_comment(input);
-		check_variable(input, &exit_status);
-		x = parse_string(input, exe, &count, &exit_status);
+		check_variable(input);
+		x = parse_string(input, exe, &count);
 		count++;
 		free(input);
 	}

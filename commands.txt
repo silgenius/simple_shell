@@ -1,0 +1,3 @@
+ls /var ; ls -la
+echo How are you?
+echo $$ ; echo $?

@@ -31,7 +31,7 @@ void create_alias(char *name, char *value)
 
 	new_node = malloc(sizeof(alias));
 	if (new_node == NULL)
-		perror("Error");
+		perror_exit();
 
 	new_node->name = _strdup(name);
 	new_node->value = _strdup(value);
@@ -61,7 +61,10 @@ void print_alias(void)
 	ptr = head;
 	while (ptr != NULL)
 	{
-		printf("%s=\'%s\'\n", ptr->name, ptr->value);
+		_print(ptr->name);
+		_print("=\'");
+		_print(ptr->value);
+		_print("\'\n");
 		ptr = ptr->next;
 	}
 }
@@ -85,14 +88,20 @@ char *search_alias(char *name)
 	{
 		if (_strcmp(ptr->name, name) == 0)
 		{
-			printf("%s=\'%s\'\n", ptr->name, ptr->value);
+			_print(ptr->name);
+			_print("=\'");
+			_print(ptr->value);
+			_print("\'\n");
 			return (ptr->value);
 		}
 		else
 			ptr = ptr->next;
 	}
 
-	printf("./hsh: alias: %s: not found\n", name);
+	_print("alias: ");
+	_print(name);
+	_print(": not found\n");
+	exit_status = 1;
 	return (NULL);
 }
 

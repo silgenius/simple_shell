@@ -6,13 +6,12 @@
  * @input: The input string (not used in this function).
  * @exe: The name of the shell executable (not used in this function).
  * @cnt: A pointer to an integer representing the command count.
- * @exit_status: A pointer to the exit status (not used in this function).
  *
  * Description: This function implements the behavior of the 'alias' command in
  * the shell. It allows the user to define, print, or modify aliases.
  */
 void alias_builtin(char **str_arr, char *input,
-		char *exe, int *cnt, int *exit_status)
+		char *exe, int *cnt)
 {
 
 	char *name, *value, *equal_sign;
@@ -20,8 +19,6 @@ void alias_builtin(char **str_arr, char *input,
 
 	(void)input;
 	(void)exe;
-	(void)exit_status;
-
 	if (str_arr[1] == NULL)
 		print_alias();
 	else
