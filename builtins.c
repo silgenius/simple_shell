@@ -74,7 +74,6 @@ void shell_setenv(char **str_arr, char *input, char *exe,
 	if (new_var == NULL)
 	{
 		_print_err("usage: setenv <variable_name> <variable_value\n");
-		exit_status = 2;
 		(*cnt)--;
 		return;
 	}
@@ -86,12 +85,12 @@ void shell_setenv(char **str_arr, char *input, char *exe,
 		if (*str != '\0' && _strcmp(str_arr[1], str) == 0)
 		{
 			free(env_dup);
-			free(environ[x]);
+			/*free(environ[x]);*/
 			environ[x] = _strdup(new_var);
 			if (environ[x] == NULL)
 				perror_exit();
 			free(new_var);
-			break;
+			return;
 		}
 		free(env_dup);
 	}
@@ -126,7 +125,6 @@ void shell_unsetenv(char **str_arr, char *input, char *exe,
 	if (str_arr[1] == NULL)
 	{
 		_print_err("usage: unsetenv <variable_name>\n");
-		exit_status = 2;
 		(*cnt)--;
 		return;
 	}
@@ -140,7 +138,6 @@ void shell_unsetenv(char **str_arr, char *input, char *exe,
 			free(env_dup);
 			for (; environ[x]; x++)
 			{
-				free(environ[x]);
 				if (environ[x + 1])
 				{
 					environ[x] = _strdup(environ[x + 1]);
