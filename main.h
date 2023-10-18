@@ -62,8 +62,8 @@ extern int exit_status;
 
 /* ----- MAIN FUNCTIONS ----- */
 
-void shell_loop(char *exe);
-ssize_t read_line(char **input, ssize_t *bufsize);
+void shell_loop(char *exe, char *file);
+ssize_t read_line(char **input, ssize_t *bufsize, FILE *stream);
 
 int parse_string(char *input, char *exe, int *cnt);
 int interprete_cmd(char *input, char *exe, int *cnt, char *str);

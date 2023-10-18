@@ -15,24 +15,37 @@ void _prompt(void)
 /**
  * shell_loop - initiates the shell
  * @exe: name of the program
+ * @file: file to be executed
  * Return: void
  */
 
-void shell_loop(char *exe)
+void shell_loop(char *exe, char *file)
 {
 	char *input;
 	int count = 1, x = 1;
 	ssize_t bufsize = line_size, len;
+	FILE *fp = stdin;
 
+	if (file)
+	{
+		fp = fopen(file, "r");
+		if (fp == NULL)
+		{
+			dprintf(STDERR_FILENO,
+				"%s: 0: cannot open %s: No such file\n",
+				exe, file);
+			exit(2);
+		}
+	}
 	while (x)
 	{
 		input = malloc(sizeof(char) * bufsize);
 		if (input == NULL)
 			perror_exit();
-		if (isatty(STDIN_FILENO))
+		if (isatty(STDIN_FILENO) && !file)
 			_prompt();
 
-		len = read_line(&input, &bufsize);
+		len = read_line(&input, &bufsize, fp);
 		if (len == -1)
 		{
 			free(input);

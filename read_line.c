@@ -4,17 +4,19 @@
  * read_line - reads user input from the stdin
  * @lineptr: buffer to write the read into
  * @bufsize: size of the buffer
+ * @stream: input stream
  * Return: length of read if successful, else -1
  */
 
-ssize_t read_line(char **lineptr, ssize_t *bufsize)
+ssize_t read_line(char **lineptr, ssize_t *bufsize, FILE *stream)
 {
 	ssize_t position = 0;
 	int c;
 
 	while (1)
 	{
-		c = getchar();
+		/*c = getchar();*/
+		c = getc(stream);
 		if (c == EOF)
 			return (-1);
 		if (c == '\n')
