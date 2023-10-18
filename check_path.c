@@ -9,15 +9,14 @@
 char *check_path(char *command)
 {
 	struct stat buf;
-	char *path, *path_dup, *str, *ptr, *f_path, *cmd_dup;
-	int cmd_len, dir_len;
+	char *path, *path_dup, *str, *ptr, *f_path;
+	int cmd_len = _strlen(command), dir_len;
 
 	path = getenv("PATH");
 	if (path)
 	{
 		path_dup = _strdup(path);
 		ptr = path_dup;
-		cmd_len = _strlen(command);
 		str = _strsep(&ptr, ":");
 		while (str != NULL)
 		{
@@ -43,11 +42,6 @@ char *check_path(char *command)
 		free(path_dup);
 	}
 	if (stat(command, &buf) == 0)
-	{
-		cmd_dup = _strdup(command);
-		if (cmd_dup == NULL)
-			perror_exit();
-		return (cmd_dup);
-	}
+		return (_strdup(command));
 	return (NULL);
 }

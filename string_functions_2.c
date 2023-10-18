@@ -57,7 +57,7 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
- * _strcpy - copies at most n bytes from a string to a buffer
+ * _strncpy - copies at most n bytes from a string to a buffer
  * @dest: pointer pointint to buffer
  * @src: pointer pointing to string
  * @n: number of bytes
@@ -66,7 +66,7 @@ char *_strcpy(char *dest, char *src)
 
 char *_strncpy(char *dest, char *src, int n)
 {
-	int x, length= 0;
+	int x, length = 0;
 
 	length = _strlen(src) > n ? n : _strlen(src);
 	for (x = 0; x < length; x++)

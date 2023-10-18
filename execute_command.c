@@ -5,7 +5,6 @@
  * @str_arr: array of strings
  * @exe: name of the program
  * @cnt: loop count
- * @exit_status: value of the current error code
  * Return: 1
  */
 
