@@ -12,7 +12,6 @@
 void shell_exit(char **str_arr, char *input, char *exe,
 		int *cnt)
 {
-	char *ptr;
 	int exit_value = exit_status;
 
 	free_alias();
@@ -21,14 +20,8 @@ void shell_exit(char **str_arr, char *input, char *exe,
 		exit_value = string_to_int(str_arr[1]);
 		if (exit_value == 0)
 		{
-			_print_err(exe);
-			_print_err(": ");
-			ptr = convert_int_to_str(*cnt);
-			_print_err(ptr);
-			free(ptr);
-			_print_err(": exit: Illegal number: ");
-			_print_err(str_arr[1]);
-			_print_err("\n");
+			dprintf(2, "%s: %d: exit: Illegal number: %s\n",
+				exe, *cnt, str_arr[1]);
 			exit_status = 2;
 			if (!isatty(STDERR_FILENO))
 			{
@@ -174,7 +167,7 @@ void change_dir(char **str_arr, char *input, char *exe,
 {
 	int fd, check;
 	char buff[1024];
-	char *pwd_old, *ptr;
+	char *pwd_old;
 
 	(void)input;
 	(void)exe;
@@ -190,10 +183,7 @@ void change_dir(char **str_arr, char *input, char *exe,
 	{
 		fd = chdir(getenv("OLDPWD"));
 		if (fd != -1)
-		{
-			_print(getenv("OLDPWD"));
-			_print("\n");
-		}
+			dprintf(STDOUT_FILENO, "%s\n", getenv("OLDPWD"));
 		check = 0;
 	}
 
@@ -201,15 +191,10 @@ void change_dir(char **str_arr, char *input, char *exe,
 		fd = chdir(str_arr[1]);
 	if (fd == -1)
 	{
-		_print_err(exe);
-		_print_err(": ");
-		ptr = convert_int_to_str(*cnt);
-		_print_err(ptr);
-		free(ptr);
-		_print_err(": cd: can't cd to ");
-		_print_err(str_arr[1]);
-		_print_err("\n");
+		dprintf(STDERR_FILENO, "%s: %d: cd: can't cd to %s\n",
+			exe, *cnt, str_arr[1]);
 		(*cnt)--;
+		exit_status = 2;
 	}
 	else
 	{
