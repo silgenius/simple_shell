@@ -44,7 +44,6 @@ void shell_loop(char *exe, char *file)
 			perror_exit();
 		if (isatty(STDIN_FILENO) && !file)
 			_prompt();
-
 		len = read_line(&input, &bufsize, fp);
 		if (len == -1)
 		{
