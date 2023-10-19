@@ -91,7 +91,7 @@ void perror_exit(void);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void create_alias(char *name, char *value);
 void print_alias(void);
-char *search_alias(char *name);
+char *search_alias(char *name, int *exit_status);
 void free_alias(void);
 char *_strchr(char *s, char c);
 int _strlen(char *s);
@@ -109,5 +109,6 @@ char *convert_int_to_str(int n);
 char *modify_alias(alias *check, char *name, char *value);
 size_t i_arr(size_t *val);
 void print_colon_err(char *exe, int *cnt, int *exit_status);
+int detectControlOperators(const char *command);
 
 #endif
