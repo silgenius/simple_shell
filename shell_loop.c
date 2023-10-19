@@ -30,12 +30,7 @@ void shell_loop(char *exe, char *file)
 	{
 		fp = fopen(file, "r");
 		if (fp == NULL)
-		{
-			dprintf(STDERR_FILENO,
-				"%s: 0: cannot open %s: No such file\n",
-				exe, file);
-			exit(2);
-		}
+			file_error(exe, file);
 	}
 	while (x)
 	{
@@ -48,6 +43,7 @@ void shell_loop(char *exe, char *file)
 		if (len == -1)
 		{
 			free(input);
+			fclose(fp);
 			exit(exit_status);
 		}
 		if (len == 0)

@@ -111,6 +111,7 @@ size_t i_arr(size_t *val);
 int detectControlOperators(const char *command);
 void print_colon_err(char *exe, int *cnt);
 int check_ptr(char *ptr, int *cnt, char *exe);
+void file_error(char *exe, char *file);
 
 void _print(char *str);
 void _print_err(char *str);
