@@ -6,17 +6,15 @@
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
- * @exit_status: the value of the current error code
  * Return: void
  */
 
 void shell_exit(char **str_arr, char *input, char *exe,
-		int *cnt, int *exit_status)
+		int *cnt)
 {
-	int exit_value = *exit_status;
+	int exit_value = exit_status;
 
 	free_alias();
-
 	if (str_arr[1])
 	{
 		exit_value = string_to_int(str_arr[1]);
@@ -24,11 +22,12 @@ void shell_exit(char **str_arr, char *input, char *exe,
 		{
 			dprintf(2, "%s: %d: exit: Illegal number: %s\n",
 				exe, *cnt, str_arr[1]);
+			exit_status = 2;
 			if (!isatty(STDERR_FILENO))
 			{
 				free(input);
 				free_str_arr(str_arr);
-				exit(2);
+				exit(exit_status);
 			}
 			(*cnt)--;
 		}
@@ -53,23 +52,21 @@ void shell_exit(char **str_arr, char *input, char *exe,
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
- * @exit_status: the value of the current error code
  * Return: void
  */
 
 void shell_setenv(char **str_arr, char *input, char *exe,
-		  int *cnt, int *exit_status)
+		  int *cnt)
 {
 	char *str, *ptr, *new_var, *env_dup;
 	int x = 0;
 
 	(void)input;
 	(void)exe;
-	(void)exit_status;
 	new_var = create_env(str_arr[1], str_arr[2]);
 	if (new_var == NULL)
 	{
-		write_err("usage: setenv <variable_name> <variable_value\n");
+		_print_err("usage: setenv <variable_name> <variable_value\n");
 		(*cnt)--;
 		return;
 	}
@@ -81,12 +78,12 @@ void shell_setenv(char **str_arr, char *input, char *exe,
 		if (*str != '\0' && _strcmp(str_arr[1], str) == 0)
 		{
 			free(env_dup);
-			free(environ[x]);
+			/*free(environ[x]);*/
 			environ[x] = _strdup(new_var);
 			if (environ[x] == NULL)
 				perror_exit();
 			free(new_var);
-			break;
+			return;
 		}
 		free(env_dup);
 	}
@@ -107,22 +104,20 @@ void shell_setenv(char **str_arr, char *input, char *exe,
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
- * @exit_status: the value of the current error code
  * Return: void
  */
 
 void shell_unsetenv(char **str_arr, char *input, char *exe,
-		    int *cnt, int *exit_status)
+		    int *cnt)
 {
 	char *str, *ptr, *env_dup;
 	int x = 0;
 
 	(void)input;
 	(void)exe;
-	(void)exit_status;
 	if (str_arr[1] == NULL)
 	{
-		write_err("usage: unsetenv <variable_name>\n");
+		_print_err("usage: unsetenv <variable_name>\n");
 		(*cnt)--;
 		return;
 	}
@@ -136,7 +131,6 @@ void shell_unsetenv(char **str_arr, char *input, char *exe,
 			free(env_dup);
 			for (; environ[x]; x++)
 			{
-				free(environ[x]);
 				if (environ[x + 1])
 				{
 					environ[x] = _strdup(environ[x + 1]);
@@ -158,7 +152,6 @@ void shell_unsetenv(char **str_arr, char *input, char *exe,
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
- * @exit_status: the value of the current error code
  *
  * Description: This function takes an array of strings where the first element
  * is the command and the second element (if present) is the path
@@ -170,7 +163,7 @@ void shell_unsetenv(char **str_arr, char *input, char *exe,
  * is printed and the return value is still 1.
  */
 void change_dir(char **str_arr, char *input, char *exe,
-		int *cnt, int *exit_status)
+		int *cnt)
 {
 	int fd, check;
 	char buff[1024];
@@ -178,8 +171,6 @@ void change_dir(char **str_arr, char *input, char *exe,
 
 	(void)input;
 	(void)exe;
-	(void)exit_status;
-
 	pwd_old = getenv("PWD");
 	check = 1;
 
@@ -191,7 +182,8 @@ void change_dir(char **str_arr, char *input, char *exe,
 	else if (_strcmp(str_arr[1], "-") == 0)
 	{
 		fd = chdir(getenv("OLDPWD"));
-		fd == -1 ? fd = -1 : printf("%s\n", getenv("OLDPWD"));
+		if (fd != -1)
+			dprintf(STDOUT_FILENO, "%s\n", getenv("OLDPWD"));
 		check = 0;
 	}
 
@@ -201,8 +193,8 @@ void change_dir(char **str_arr, char *input, char *exe,
 	{
 		dprintf(STDERR_FILENO, "%s: %d: cd: can't cd to %s\n",
 			exe, *cnt, str_arr[1]);
-		*exit_status = 1;
 		(*cnt)--;
+		exit_status = 2;
 	}
 	else
 	{
@@ -220,12 +212,11 @@ void change_dir(char **str_arr, char *input, char *exe,
  * @input: pointer to input command
  * @exe: name of program
  * @cnt: loop count
- * @exit_status: the value of the current error code
  * Return: void
  */
 
 void print_env(char **str_arr, char *input, char *exe,
-	       int *cnt, int *exit_status)
+	       int *cnt)
 {
 	int x = 0;
 
@@ -233,7 +224,9 @@ void print_env(char **str_arr, char *input, char *exe,
 	(void)input;
 	(void)exe;
 	(void)cnt;
-	(void)exit_status;
 	for (; environ[x]; x++)
-		printf("%s\n", environ[x]);
+	{
+		_print(environ[x]);
+		_print("\n");
+	}
 }

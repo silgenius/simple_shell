@@ -5,7 +5,6 @@ void write_var_to_input(char *var, char *input, int *count);
 /**
  * check_variable - Handles variable replacement in input string.
  * @input: The input string to be processed.
- * @exit_status: error code
  *
  * Description: This function takes an input string and processes it to replace
  * variables. It handles the $? variable, which represents the
@@ -15,7 +14,7 @@ void write_var_to_input(char *var, char *input, int *count);
  *
  * Return: A dynamically allocated string with variables replaced.
  */
-void check_variable(char *input, int *exit_status)
+void check_variable(char *input)
 {
 	char *var, *ptr, *str = _strdup(input);
 	int count, i;
@@ -36,7 +35,7 @@ void check_variable(char *input, int *exit_status)
 				write_var_to_input(strdup(tmp), input, &count);
 			}
 			else if (*str == '?')
-				write_var_to_input(convert_int_to_str(*exit_status), input, &count);
+				write_var_to_input(convert_int_to_str(exit_status), input, &count);
 			else
 			{
 				while (*str != ' ' && *str != '\0')

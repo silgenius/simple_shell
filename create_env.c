@@ -16,9 +16,9 @@ char *create_env(char *var, char *value)
 	new_var = malloc(sizeof(char) * (_strlen(var) + _strlen(value) + 2));
 	if (new_var == NULL)
 		perror_exit();
-	strcpy(new_var, var);
-	strcat(new_var, "=");
-	strcat(new_var, value);
-	strcat(new_var, "\0");
+	_strcpy(new_var, var);
+	_strcat(new_var, "=");
+	_strcat(new_var, value);
+	_strcat(new_var, "\0");
 	return (new_var);
 }

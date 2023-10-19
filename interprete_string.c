@@ -8,11 +8,10 @@
  * @exe: name of the program
  * @cnt: the loop count
  * @str: string to be split
- * @exit_code: value of error code
  * Return: 0 or 1
  */
 
-int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_code)
+int interprete_cmd(char *input, char *exe, int *cnt, char *str)
 {
 	int ret = 1;
 	size_t arr_size = sizeof(char *) * 24, x = 0;
@@ -49,9 +48,9 @@ int interprete_cmd(char *input, char *exe, int *cnt, char *str, int *exit_code)
 	str_arr[0] = replace_alias(str_arr[0]);
 	if (check_builtin(str_arr[0]) != NULL)
 		(*check_builtin(str_arr[0]))(str_arr, input, exe,
-					     cnt, exit_code);
+					     cnt);
 	else
-		ret = (exec_cmd(str_arr, exe, cnt, exit_code));
+		ret = (exec_cmd(str_arr, exe, cnt));
 	free_str_arr(str_arr);
 	return (ret);
 }

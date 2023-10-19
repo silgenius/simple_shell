@@ -4,13 +4,17 @@
  * print_colon_err - prints error msg for colon to std output
  * @exe: name of program
  * @cnt: loop count
- * @exit_status: error code
  * Return: void
  */
 
-void print_colon_err(char *exe, int *cnt, int *exit_status)
+void print_colon_err(char *exe, int *cnt)
 {
-	dprintf(STDERR_FILENO, "%s: %d: Syntax error: %c;%c unexpected\n",
-		exe, *cnt, 34, 34);
-	*exit_status = 2;
+	char *ptr = convert_int_to_str(*cnt);
+
+	_print_err(exe);
+	_print_err(": ");
+	_print_err(ptr);
+	free(ptr);
+	_print_err(": Syntax error: \';\' unexpected\n");
+	exit_status = 2;
 }

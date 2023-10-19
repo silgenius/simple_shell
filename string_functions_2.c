@@ -57,7 +57,7 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
- * _strcpy - copies at most n bytes from a string to a buffer
+ * _strncpy - copies at most n bytes from a string to a buffer
  * @dest: pointer pointint to buffer
  * @src: pointer pointing to string
  * @n: number of bytes

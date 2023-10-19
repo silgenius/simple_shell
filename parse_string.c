@@ -15,18 +15,14 @@ int parse_string(char *input, char *exe, int *cnt)
 	int x = 1, check = detectControlOperators(input);
 
 	ptr = input;
-	if (*ptr == ';')
-	{
-		print_colon_err(exe, cnt);
-		(*cnt)--;
+	if (check_ptr(ptr, cnt, exe) == 1)
 		return (1);
-	}
 	/**
 	 * check if ptr has semicolons, return that part of the ptr and
 	 * and pass to interprete command till it returns NULL
 	 */
 	semi_present = _strchr(ptr, ';');
-	str = _strsep(&ptr, ";");
+	str = _strsep(&ptr, "&|;");
 	while (str != NULL)
 	{
 		if (*str != '\0')
@@ -41,16 +37,41 @@ int parse_string(char *input, char *exe, int *cnt)
 			x = 1;
 			break;
 		}
-		 if (ptr != NULL && (*ptr == '&' || *ptr == '|'))
-                        ptr++;
-
+		if (ptr != NULL && (*ptr == '&' || *ptr == '|'))
+			ptr++;
 		if (check == 1 && exit_status != 0)
 			str = _strsep(&ptr, "&|;");
-
+		if (check == 2 && exit_status == 0)
+			str = _strsep(&ptr, "&|;");
 		if (ptr != NULL && (*ptr == '&' || *ptr == '|'))
 			ptr++;
 		str = _strsep(&ptr, "&|;");
 	}
 
 	return (x);
+}
+
+/**
+ * check_ptr - Check if a character in the input string is a special symbol.
+ *
+ * This function checks whether the given character in the input string is
+ * a semicolon (';'), ampersand ('&'), or pipe ('|'). If any of these special
+ * symbols is found, it prints an error message using the print_colon_err
+ * function,decrements the loop count, and returns 1. Otherwise, it returns 0.
+ *
+ * @ptr: Pointer to the character being checked in the input string.
+ * @cnt: Pointer to the loop count.
+ * @exe: Pointer to the name of the executable (program name).
+ * Return: 1 if the character is a special symbol, 0 otherwise.
+ */
+int check_ptr(char *ptr, int *cnt, char *exe)
+{
+	if (*ptr == ';' || *ptr == '&' || *ptr == '|')
+	{
+		print_colon_err(exe, cnt);
+		(*cnt)--;
+		return (1);
+	}
+
+	return (0);
 }

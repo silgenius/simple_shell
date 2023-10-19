@@ -6,7 +6,7 @@
  * Return: a pointer to the function
  */
 
-void (*check_builtin(char *string))(char **, char *, char *, int *, int *)
+void (*check_builtin(char *string))(char **, char *, char *, int *)
 {
 	builtin_t list[] = {{"exit", shell_exit},
 			    {"setenv", shell_setenv},

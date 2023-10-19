@@ -1,26 +1,50 @@
+#define EXIT_STATUS
 #include "main.h"
+
+/**
+ * _prompt - prints a prompt
+ *
+ * Return: void
+ */
+
+void _prompt(void)
+{
+	write(STDOUT_FILENO, "($) ", 4);
+}
 
 /**
  * shell_loop - initiates the shell
  * @exe: name of the program
+ * @file: file to be executed
  * Return: void
  */
 
-void shell_loop(char *exe)
+void shell_loop(char *exe, char *file)
 {
 	char *input;
-	int count = 1, x = 1, exit_status = 0;
+	int count = 1, x = 1;
 	ssize_t bufsize = line_size, len;
+	FILE *fp = stdin;
 
+	if (file)
+	{
+		fp = fopen(file, "r");
+		if (fp == NULL)
+		{
+			dprintf(STDERR_FILENO,
+				"%s: 0: cannot open %s: No such file\n",
+				exe, file);
+			exit(2);
+		}
+	}
 	while (x)
 	{
 		input = malloc(sizeof(char) * bufsize);
 		if (input == NULL)
 			perror_exit();
-		if (isatty(STDIN_FILENO))
-			printf("($) ");
-
-		len = read_line(&input, &bufsize);
+		if (isatty(STDIN_FILENO) && !file)
+			_prompt();
+		len = read_line(&input, &bufsize, fp);
 		if (len == -1)
 		{
 			free(input);
@@ -32,8 +56,8 @@ void shell_loop(char *exe)
 			continue;
 		}
 		check_comment(input);
-		check_variable(input, &exit_status);
-		x = parse_string(input, exe, &count, &exit_status);
+		check_variable(input);
+		x = parse_string(input, exe, &count);
 		count++;
 		free(input);
 	}
